@@ -23,7 +23,7 @@ export default function About() {
             </p>
           </Reveal>
           <div className="flex flex-wrap items-center gap-4 text-sm">
-            <Link href="/#lineup" className="text-cyber-lime hover:underline">
+            <Link href="/collection" className="text-cyber-lime hover:underline">
               Explorar la colección
             </Link>
             <Link href="/product/n95-pro-defender" className="inline-flex items-center gap-2 text-white/70 hover:text-cyber-gray">

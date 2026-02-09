@@ -34,7 +34,7 @@ export default function FinalCTA() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Magnetic>
-            <Link href="/#lineup" className="text-sm text-white/70 hover:text-cyber-gray">
+            <Link href="/collection" className="text-sm text-white/70 hover:text-cyber-gray">
               Ver la colección completa
             </Link>
           </div>

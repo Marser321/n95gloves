@@ -120,16 +120,16 @@ export default function Hero() {
               <Link href="/product/n95-pro-defender">Comprar Ahora</Link>
             </CTAButton>
             <Link
-              href="/#tech"
+              href="/technology"
               className="text-sm text-white/60 underline-offset-4 hover:text-cyber-gray hover:underline"
             >
               Ver especificaciones
             </Link>
             <Link
-              href="/#lineup"
+              href="/collection"
               className="text-sm text-white/60 underline-offset-4 hover:text-cyber-gray hover:underline"
             >
-              Ver lineup
+              Ver colección
             </Link>
           </motion.div>
         </div>

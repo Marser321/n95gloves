@@ -3,25 +3,28 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ShoppingBag } from "lucide-react";
+import { Menu, ShoppingBag } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/providers/cart-provider";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "@/components/motion/magnetic";
 
 const links = [
-  { href: "/#story", label: "Manifiesto" },
-  { href: "/#lookbook", label: "Lookbook" },
-  { href: "/#lineup", label: "Colección" },
+  { href: "/", label: "Inicio" },
+  { href: "/collection", label: "Colección" },
+  { href: "/lookbook", label: "Lookbook" },
+  { href: "/technology", label: "Tecnología" },
   { href: "/lab", label: "N95 Lab" },
-  { href: "/#tech", label: "Tecnología" },
-  { href: "/#faq", label: "FAQ" },
-  { href: "/#about", label: "Sobre N95" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/about", label: "Sobre N95" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { openCart, items, lastActionAt } = useCart();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 12);
@@ -43,18 +46,60 @@ export default function Navbar() {
         <Link href="/" className="text-sm tracking-[0.24em] font-semibold uppercase text-cyber-gray">
           N95 Gloves
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-white/70 md:flex">
+        <nav className="hidden items-center gap-5 text-sm text-white/70 lg:flex">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-cyber-gray"
+              className={cn(
+                "transition-colors hover:text-cyber-gray",
+                pathname === link.href ? "text-cyber-lime" : ""
+              )}
             >
               {link.label}
             </Link>
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button type="button" variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="gap-6">
+              <div className="space-y-1">
+              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Menú</p>
+                <p className="text-lg font-semibold">N95 Gloves</p>
+              </div>
+              <div className="grid gap-3 text-sm text-white/70">
+                {links.map((link) => (
+                  <SheetClose asChild key={`mobile-${link.href}`}>
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "rounded-md border border-white/10 bg-white/5 px-4 py-3 transition hover:border-cyber-lime/40",
+                        pathname === link.href ? "text-cyber-lime" : ""
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  </SheetClose>
+                ))}
+                <SheetClose asChild>
+                  <Link
+                    href="/contact"
+                    className={cn(
+                      "rounded-md border border-white/10 bg-white/5 px-4 py-3 transition hover:border-cyber-lime/40",
+                      pathname === "/contact" ? "text-cyber-lime" : ""
+                    )}
+                  >
+                    Contacto
+                  </Link>
+                </SheetClose>
+              </div>
+            </SheetContent>
+          </Sheet>
           <Button type="button" variant="ghost" size="icon" aria-label="Abrir carrito" onClick={openCart}>
             <motion.div
               key={lastActionAt}
@@ -73,7 +118,7 @@ export default function Navbar() {
           </Button>
           <Magnetic>
             <Button asChild size="sm">
-              <Link href="/#comprar">Comprar</Link>
+              <Link href="/collection">Comprar</Link>
             </Button>
           </Magnetic>
         </div>

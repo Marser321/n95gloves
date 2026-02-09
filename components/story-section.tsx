@@ -41,11 +41,11 @@ export default function StorySection() {
           </Reveal>
           <Reveal delay={0.22}>
             <div className="flex flex-wrap items-center gap-4 text-sm">
-              <Link href="/#lookbook" className="text-cyber-lime hover:underline">
+              <Link href="/lookbook" className="text-cyber-lime hover:underline">
                 Ver lookbook
               </Link>
-              <Link href="/product/n95-pro-defender" className="inline-flex items-center gap-2 text-white/70 hover:text-cyber-gray">
-                Conocer modelo insignia
+              <Link href="/collection" className="inline-flex items-center gap-2 text-white/70 hover:text-cyber-gray">
+                Explorar colección
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

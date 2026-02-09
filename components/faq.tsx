@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MessageCircle, ShieldCheck, Truck, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
@@ -46,7 +47,9 @@ export default function FAQ() {
           </Reveal>
           <Reveal delay={0.22}>
             <div className="flex flex-wrap items-center gap-4">
-              <Button type="button" variant="outline">Hablar con un asesor</Button>
+              <Button asChild type="button" variant="outline">
+                <Link href="/contact">Hablar con un asesor</Link>
+              </Button>
               <span className="text-xs uppercase tracking-[0.24em] text-white/50">
                 Respuesta en menos de 2 horas
               </span>

@@ -170,7 +170,7 @@ export default function BentoGrid({ products }: { products: Product[] }) {
             <h2 className="mt-2 text-3xl font-semibold">Escasez. Ingeniería. Exclusividad.</h2>
           </Reveal>
         </div>
-        <Link href="/#comprar" className="text-sm text-cyber-lime hover:underline">
+        <Link href="/collection" className="text-sm text-cyber-lime hover:underline">
           Ver colección completa
         </Link>
       </div>

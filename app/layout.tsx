@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import { CartProvider } from "@/providers/cart-provider";
 import CartDrawer from "@/components/cart/cart-drawer";
 import PageTransition from "@/components/motion/page-transition";
+import Footer from "@/components/footer";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
           <main className="min-h-screen">
             <PageTransition>{children}</PageTransition>
           </main>
+          <Footer />
         </CartProvider>
       </body>
     </html>
