@@ -36,13 +36,6 @@ export async function POST(request: NextRequest) {
   const mpAccessToken = process.env.MP_ACCESS_TOKEN ?? "";
   const mpPublicKey = process.env.NEXT_PUBLIC_MP_PUBLIC_KEY ?? "";
 
-  if (!mpAccessToken || !mpPublicKey) {
-    return NextResponse.json({
-      demo: true,
-      message: "Faltan credenciales de Mercado Pago.",
-    });
-  }
-
   const orderId = crypto.randomUUID();
   const currency = "UYU";
   const totalAmount = payload.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -78,6 +71,15 @@ export async function POST(request: NextRequest) {
         }))
       );
     }
+  }
+
+  if (!mpAccessToken || !mpPublicKey) {
+    return NextResponse.json({
+      demo: true,
+      message: "Faltan credenciales de Mercado Pago.",
+      orderId,
+      orderStored,
+    });
   }
 
   const siteUrl = getSiteUrl();
