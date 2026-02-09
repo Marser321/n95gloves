@@ -1,14 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { lookbook } from "@/lib/lookbook";
 import { blurDataUrl } from "@/lib/blur";
-import { Reveal, RevealGroup } from "@/components/motion/reveal";
+import { Reveal } from "@/components/motion/reveal";
 
 export default function Lookbook() {
-  const track = [...lookbook, ...lookbook];
-  const reduced = useReducedMotion();
   const chapters = [
     {
       id: "I",
@@ -42,63 +39,58 @@ export default function Lookbook() {
             expresa en cada detalle.
           </p>
         </Reveal>
-        <Reveal delay={0.22}>
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-white/50">
-            <span>Capítulo I</span>
-            <span className="h-px flex-1 bg-white/10" aria-hidden />
-            <span>Capítulo II</span>
-            <span className="h-px flex-1 bg-white/10" aria-hidden />
-            <span>Capítulo III</span>
-          </div>
-        </Reveal>
-        <RevealGroup className="grid gap-4 md:grid-cols-3" stagger={0.08}>
-          {chapters.map((chapter) => (
-            <div
-              key={chapter.id}
-              className="rounded-[12px] border border-white/10 bg-white/5 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.25)]"
-            >
-              <p className="text-xs uppercase tracking-[0.24em] text-white/50">Capítulo {chapter.id}</p>
-              <p className="mt-2 text-sm font-semibold">{chapter.title}</p>
-              <p className="mt-2 text-xs text-white/60">{chapter.copy}</p>
-            </div>
-          ))}
-        </RevealGroup>
       </div>
 
-      <div className="relative mt-10 overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+      <div className="relative mt-10">
+        <div className="container">
+          <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-white/50">
+            <span>Desliza horizontal</span>
+            <span className="h-px flex-1 bg-white/10" aria-hidden />
+            <span>{lookbook.length} escenas</span>
+          </div>
+        </div>
 
-        <motion.div
-          className="flex w-[200%] gap-5 py-6"
-          animate={reduced ? {} : { x: ["0%", "-50%"] }}
-          transition={reduced ? {} : { duration: 38, ease: "linear", repeat: Infinity }}
-        >
-          {track.map((item, idx) => (
-            <article
-              key={`${item.id}-${idx}`}
-              className="group relative w-[260px] flex-shrink-0 overflow-hidden rounded-[14px] border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
-            >
-              <div className="relative h-[340px] w-full overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={`${item.title} - ${item.caption}`}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 220px, 260px"
-                  placeholder="blur"
-                  blurDataURL={blurDataUrl}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-90" />
-              </div>
-              <div className="space-y-1 p-4">
-                <p className="text-xs uppercase tracking-[0.24em] text-white/50">{item.title}</p>
-                <p className="text-sm text-white/75">{item.caption}</p>
-              </div>
-            </article>
-          ))}
-        </motion.div>
+        <div className="relative mt-6">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-black to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-black to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+
+          <div
+            className="no-scrollbar flex h-[70vh] min-h-[420px] snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-10 pt-4 md:h-[78vh] lg:h-[82vh]"
+            aria-label="Lookbook editorial"
+          >
+            {lookbook.map((item, index) => {
+              const chapter = chapters[index % chapters.length];
+              return (
+                <article
+                  key={item.id}
+                  className="group relative h-full min-w-[86vw] snap-center overflow-hidden rounded-[18px] border border-white/10 bg-white/5 shadow-[0_28px_80px_rgba(0,0,0,0.35)] md:min-w-[70vw] lg:min-w-[58vw]"
+                >
+                  <Image
+                    src={item.image}
+                    alt={`${item.title} - ${item.caption}`}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 58vw"
+                    placeholder="blur"
+                    blurDataURL={blurDataUrl}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
+                  <div className="absolute bottom-6 left-6 right-6 space-y-2">
+                    <p className="text-[11px] uppercase tracking-[0.3em] text-white/60">
+                      Capítulo {chapter.id} · {chapter.title}
+                    </p>
+                    <h3 className="section-title text-3xl font-semibold md:text-4xl">
+                      {item.title}
+                    </h3>
+                    <p className="max-w-xl text-sm text-white/70">{item.caption}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

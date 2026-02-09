@@ -65,7 +65,7 @@ export default function ScrollyGlove() {
 
   return (
     <section ref={ref} className="relative py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(57,255,20,0.12),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(43,255,79,0.12),transparent_45%)]" />
       <div className="container grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-6 lg:sticky lg:top-24 lg:h-fit">
           <Reveal>
@@ -87,7 +87,7 @@ export default function ScrollyGlove() {
             )}
             style={reduced ? {} : { y: imageY, scale: imageScale }}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(57,255,20,0.2),transparent_45%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(43,255,79,0.2),transparent_45%)]" />
             <Image
               src="/lookbook/lookbook-03.jpg"
               alt="Detalle del guante N95"

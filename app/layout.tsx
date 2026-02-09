@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk, Teko } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { CartProvider } from "@/providers/cart-provider";
@@ -13,11 +13,11 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const bebasNeue = Bebas_Neue({
+const teko = Teko({
   subsets: ["latin"],
-  variable: "--font-bebas-neue",
+  variable: "--font-teko",
   display: "swap",
-  weight: "400",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark">
       <body
-        className={`${spaceGrotesk.variable} ${bebasNeue.variable} antialiased bg-cyber-black text-cyber-gray`}
+        className={`${spaceGrotesk.variable} ${teko.variable} antialiased bg-cyber-black text-cyber-gray`}
       >
         <CartProvider>
           <Navbar />

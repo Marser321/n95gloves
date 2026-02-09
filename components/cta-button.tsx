@@ -25,7 +25,7 @@ export default function CTAButton({ className, children, asChild, ...props }: Bu
       <Magnetic>
         <Button
           className={cn(
-            "group relative overflow-hidden border border-transparent text-cyber-black shadow-glow transition-all hover:shadow-[0_0_0_1px_rgba(57,255,20,0.5),0_0_35px_rgba(57,255,20,0.45)]",
+            "group relative overflow-hidden border border-transparent text-cyber-black shadow-glow transition-all hover:shadow-[0_0_0_1px_rgba(43,255,79,0.5),0_0_35px_rgba(43,255,79,0.45)]",
             className
           )}
           {...props}
@@ -41,7 +41,7 @@ export default function CTAButton({ className, children, asChild, ...props }: Bu
     <Magnetic>
       <Button
         className={cn(
-          "group relative overflow-hidden border border-transparent text-cyber-black shadow-glow transition-all hover:shadow-[0_0_0_1px_rgba(57,255,20,0.5),0_0_35px_rgba(57,255,20,0.45)]",
+          "group relative overflow-hidden border border-transparent text-cyber-black shadow-glow transition-all hover:shadow-[0_0_0_1px_rgba(43,255,79,0.5),0_0_35px_rgba(43,255,79,0.45)]",
           className
         )}
         {...props}

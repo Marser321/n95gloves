@@ -31,11 +31,11 @@ export default function LabPreview({ cut, text }: LabPreviewProps) {
       if (!textValue) return;
 
       const fontSize = Math.max(16, Math.min(34, width * 0.06));
-      ctx.font = `600 ${fontSize}px "Cormorant Garamond", serif`;
+      ctx.font = `600 ${fontSize}px "Teko", sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillStyle = "rgba(57, 255, 20, 0.95)";
-      ctx.shadowColor = "rgba(57, 255, 20, 0.55)";
+      ctx.fillStyle = "rgba(43, 255, 79, 0.95)";
+      ctx.shadowColor = "rgba(43, 255, 79, 0.55)";
       ctx.shadowBlur = 14;
 
       const x = width * 0.55;
@@ -77,7 +77,7 @@ export default function LabPreview({ cut, text }: LabPreviewProps) {
       ref={containerRef}
       className="relative aspect-[3/4] w-full overflow-hidden rounded-[16px] border border-white/10 bg-black/40"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_40%_20%,rgba(57,255,20,0.16),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_40%_20%,rgba(43,255,79,0.16),transparent_55%)]" />
       <AnimatePresence mode="wait">
         <motion.div
           key={active.id}

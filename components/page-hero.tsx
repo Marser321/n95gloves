@@ -27,7 +27,7 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section className={cn("relative overflow-hidden pt-28 pb-12", className)}>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(57,255,20,0.12),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(43,255,79,0.12),transparent_40%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" />
       <div className="container relative z-10 space-y-6">
         <Reveal>
@@ -37,7 +37,7 @@ export default function PageHero({
           <h1 className="section-title text-4xl font-semibold leading-tight md:text-5xl">{title}</h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p className="max-w-2xl text-sm text-white/70 md:text-base">{description}</p>
+          <p className="max-w-2xl text-sm text-white/75 md:text-base">{description}</p>
         </Reveal>
         {badges.length > 0 && (
           <Reveal delay={0.2}>
@@ -62,7 +62,7 @@ export default function PageHero({
                 <Magnetic>
                   <Link
                     href={secondaryCta.href}
-                    className="text-sm text-white/70 underline-offset-4 hover:text-cyber-gray hover:underline"
+                    className="text-sm text-white/75 underline-offset-4 hover:text-cyber-gray hover:underline"
                   >
                     {secondaryCta.label}
                   </Link>

@@ -36,6 +36,8 @@ export default function ProductDetail({ product }: { product: Product }) {
     offset: ["start end", "end start"],
   });
   const hotspotOffset = useTransform(imageScroll, [0, 1], [-6, 6]);
+  const imageRotate = useTransform(imageScroll, [0, 1], reduced ? [0, 0] : [-2, 2]);
+  const imageTilt = useTransform(imageScroll, [0, 1], reduced ? [0, 0] : [1.5, -1.5]);
   const [focus, setFocus] = useState<keyof typeof focusPoints>("palm");
   const [hovered, setHovered] = useState<keyof typeof focusPoints | null>(null);
   const [adding, setAdding] = useState(false);
@@ -59,6 +61,26 @@ export default function ProductDetail({ product }: { product: Product }) {
     palm: product.featureCopy.palm,
     wrist: product.featureCopy.wrist,
   };
+  const scrollySteps = [
+    {
+      key: "dorsal",
+      kicker: "Control de impacto",
+      title: "Dorso técnico de respuesta rápida",
+      copy: anatomyCopy.dorsal,
+    },
+    {
+      key: "palm",
+      kicker: "Agarre boutique",
+      title: "Palma con grip de precisión",
+      copy: anatomyCopy.palm,
+    },
+    {
+      key: "wrist",
+      kicker: "Sujeción estable",
+      title: "Muñequera 360 de ajuste firme",
+      copy: anatomyCopy.wrist,
+    },
+  ] as const;
 
   const handleAdd = () => {
     if (adding) return;
@@ -147,9 +169,14 @@ export default function ProductDetail({ product }: { product: Product }) {
           ref={imageRef}
           className="sticky top-24 overflow-hidden rounded-[16px] border border-white/12 bg-gradient-to-b from-white/8 via-black/40 to-black/70 p-4 backdrop-blur-xl shadow-[0_25px_80px_rgba(0,0,0,0.35)]"
         >
-          <div className="relative">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(57,255,20,0.16),transparent_50%)] blur-3xl" />
-            <ProductGallery media={product.media} name={product.name} overlay={galleryOverlay} />
+          <div className="relative perspective-[1200px]">
+            <motion.div
+              className="relative [transform-style:preserve-3d]"
+              style={{ rotateX: imageTilt, rotateZ: imageRotate }}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.16),transparent_50%)] blur-3xl" />
+              <ProductGallery media={product.media} name={product.name} overlay={galleryOverlay} />
+            </motion.div>
           </div>
         </div>
       </div>
@@ -258,6 +285,29 @@ export default function ProductDetail({ product }: { product: Product }) {
             {focus === "dorsal" && anatomyCopy.dorsal}
             {focus === "palm" && anatomyCopy.palm}
             {focus === "wrist" && anatomyCopy.wrist}
+          </div>
+        </div>
+
+        <div className="space-y-4" id="story">
+          <p className="text-xs uppercase tracking-[0.3em] text-white/50">Ritual de rendimiento</p>
+          <div className="space-y-10">
+            {scrollySteps.map((step) => (
+              <div key={step.key} className="min-h-[32vh]">
+                <motion.div
+                  onViewportEnter={() => setFocus(step.key)}
+                  viewport={{ amount: 0.6 }}
+                  className={`rounded-[12px] border p-6 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition ${
+                    focus === step.key
+                      ? "border-cyber-lime/60 bg-cyber-lime/10"
+                      : "border-white/10 bg-white/5"
+                  }`}
+                >
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-white/50">{step.kicker}</p>
+                  <h3 className="mt-3 text-2xl font-semibold">{step.title}</h3>
+                  <p className="mt-3 text-sm text-white/70">{step.copy}</p>
+                </motion.div>
+              </div>
+            ))}
           </div>
         </div>
 

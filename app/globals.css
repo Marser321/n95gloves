@@ -4,8 +4,8 @@
 
 :root {
   --color-background: #030303;
-  --color-foreground: #f5f5f5;
-  --color-accent: #39ff14;
+  --color-foreground: #f7f9f5;
+  --color-accent: #2bff4f;
 }
 
 html {
@@ -18,21 +18,21 @@ html {
 
 body {
   @apply bg-cyber-black text-cyber-gray;
-  background: radial-gradient(circle at 20% 20%, rgba(57, 255, 20, 0.04), transparent 28%),
-    radial-gradient(circle at 80% 0%, rgba(57, 255, 20, 0.05), transparent 30%),
+  background: radial-gradient(circle at 20% 20%, rgba(43, 255, 79, 0.04), transparent 28%),
+    radial-gradient(circle at 80% 0%, rgba(43, 255, 79, 0.05), transparent 30%),
     #030303;
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
   min-height: 100vh;
 }
 
 .section-title {
-  font-family: var(--font-bebas-neue), system-ui, sans-serif;
-  letter-spacing: 0.02em;
+  font-family: var(--font-teko), system-ui, sans-serif;
+  letter-spacing: 0.04em;
 }
 
 .focus-ring {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.5);
+  box-shadow: 0 0 0 2px rgba(43, 255, 79, 0.55);
 }
 
 .motion-smooth {
@@ -49,7 +49,7 @@ body {
 }
 
 .glow-ring {
-  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.35), 0 0 25px rgba(57, 255, 20, 0.18);
+  box-shadow: 0 0 0 1px rgba(43, 255, 79, 0.45), 0 0 35px rgba(43, 255, 79, 0.25);
 }
 
 .particle {
@@ -57,8 +57,17 @@ body {
   width: 3px;
   height: 3px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.45);
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+  background: rgba(245, 255, 248, 0.65);
+  filter: drop-shadow(0 0 8px rgba(43, 255, 79, 0.2));
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

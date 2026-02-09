@@ -121,7 +121,7 @@ export default function CheckoutBricks() {
           },
           customization: {
             visual: {
-              buttonBackground: "#39FF14",
+              buttonBackground: "#2BFF4F",
               borderRadius: "2px",
               valuePropColor: "#f5f5f5",
             },

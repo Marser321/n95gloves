@@ -13,9 +13,9 @@ Este documento define el estandar de calidad, direccion visual y arquitectura te
 ---
 
 ## 2) Tipografia
-- **Titulos (serif):** Cormorant Garamond.
+- **Titulos (sport-tech):** Teko (condensada, atletica, premium).
 - **UI tecnica / especificaciones (sans):** Space Grotesk.
-- **Cuerpo:** Manrope (mantener por ahora; considerar unificar a Space Grotesk en una fase posterior).
+- **Cuerpo:** Space Grotesk (unificado).
 
 ---
 
@@ -72,7 +72,7 @@ Este documento define el estandar de calidad, direccion visual y arquitectura te
 ---
 
 ## Fase 2 — Hero inmersiva + Navbar glass
-- Fondo Canvas 2D con lluvia/particulas de latex.
+- Fondo Canvas 2D con particulas flotantes (campo de energia), sin lluvia.
 - Titulo "N95 Gloves" con stagger letter-by-letter.
 - Transicion de pagina suave (AnimatePresence).
 
