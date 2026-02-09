@@ -29,6 +29,30 @@ export default function HeroCanvas() {
     let particles: Particle[] = [];
     let raf = 0;
     let lastTime = 0;
+    let particleA: [number, number, number] = [156, 163, 175];
+    let particleB: [number, number, number] = [229, 231, 235];
+
+    const parseRgb = (
+      value: string,
+      fallback: [number, number, number]
+    ): [number, number, number] => {
+      const parts = value
+        .trim()
+        .split(/\s+/)
+        .map((segment) => Number.parseInt(segment, 10))
+        .filter((segment) => Number.isFinite(segment));
+      if (parts.length < 3) return fallback;
+      return [parts[0], parts[1], parts[2]];
+    };
+
+    const toRgba = (rgb: [number, number, number], alpha: number) =>
+      `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
+
+    const syncPalette = () => {
+      const styles = window.getComputedStyle(document.documentElement);
+      particleA = parseRgb(styles.getPropertyValue("--particle-a-rgb"), particleA);
+      particleB = parseRgb(styles.getPropertyValue("--particle-b-rgb"), particleB);
+    };
 
     const createParticle = (): Particle => ({
       x: Math.random() * width,
@@ -69,20 +93,20 @@ export default function HeroCanvas() {
         const size = particle.radius * pulse * 10;
 
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
-        gradient.addColorStop(0, `rgba(43, 255, 79, ${particle.alpha})`);
-        gradient.addColorStop(0.55, `rgba(43, 255, 79, ${particle.alpha * 0.4})`);
+        gradient.addColorStop(0, toRgba(particleA, particle.alpha));
+        gradient.addColorStop(0.55, toRgba(particleA, particle.alpha * 0.4));
         gradient.addColorStop(1, "rgba(3,3,3,0)");
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = `rgba(245, 255, 248, ${particle.alpha * 0.6})`;
+        ctx.fillStyle = toRgba(particleB, particle.alpha * 0.6);
         ctx.beginPath();
         ctx.arc(x, y, particle.radius * 1.6, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.strokeStyle = `rgba(43, 255, 79, ${particle.alpha * 0.35})`;
+        ctx.strokeStyle = toRgba(particleA, particle.alpha * 0.35);
         ctx.lineWidth = 0.6;
         ctx.beginPath();
         ctx.moveTo(x - 6 * particle.drift, y - 2 * particle.drift);
@@ -97,19 +121,26 @@ export default function HeroCanvas() {
       raf = requestAnimationFrame(drawFrame);
     };
 
+    syncPalette();
     resize();
     window.addEventListener("resize", resize);
+    const observer = new MutationObserver(syncPalette);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "style"],
+    });
 
     if (!reduced) {
       raf = requestAnimationFrame(drawFrame);
     } else {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "rgba(43, 255, 79, 0.06)";
+      ctx.fillStyle = toRgba(particleA, 0.08);
       ctx.fillRect(0, 0, width, height);
     }
 
     return () => {
       window.removeEventListener("resize", resize);
+      observer.disconnect();
       if (raf) cancelAnimationFrame(raf);
     };
   }, [reduced]);

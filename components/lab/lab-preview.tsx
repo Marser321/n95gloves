@@ -25,6 +25,10 @@ export default function LabPreview({ cut, text }: LabPreviewProps) {
     let width = 0;
     let height = 0;
     const textValue = text.trim().toUpperCase().slice(0, 12);
+    const rootStyles = window.getComputedStyle(document.documentElement);
+    const accent = rootStyles.getPropertyValue("--accent").trim() || "#9CA3AF";
+    const accentRgb = rootStyles.getPropertyValue("--accent-rgb").trim() || "156 163 175";
+    const accentRgbCsv = accentRgb.replace(/\s+/g, ", ");
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
@@ -34,8 +38,8 @@ export default function LabPreview({ cut, text }: LabPreviewProps) {
       ctx.font = `600 ${fontSize}px "Teko", sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillStyle = "rgba(43, 255, 79, 0.95)";
-      ctx.shadowColor = "rgba(43, 255, 79, 0.55)";
+      ctx.fillStyle = accent;
+      ctx.shadowColor = `rgba(${accentRgbCsv}, 0.55)`;
       ctx.shadowBlur = 14;
 
       const x = width * 0.55;
@@ -77,7 +81,13 @@ export default function LabPreview({ cut, text }: LabPreviewProps) {
       ref={containerRef}
       className="relative aspect-[3/4] w-full overflow-hidden rounded-[16px] border border-white/10 bg-black/40"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_40%_20%,rgba(43,255,79,0.16),transparent_55%)]" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 40% 20%, rgb(var(--accent-rgb) / 0.16), transparent 55%)",
+        }}
+      />
       <AnimatePresence mode="wait">
         <motion.div
           key={active.id}

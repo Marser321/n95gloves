@@ -88,7 +88,7 @@ export default function LabConfigurator() {
                   <div
                     className={`flex h-9 w-9 items-center justify-center rounded-full border text-xs font-semibold ${
                       activeStep || doneStep
-                        ? "border-cyber-lime/70 bg-cyber-lime/15 text-cyber-lime"
+                        ? "border-[color:rgb(var(--accent-rgb)/0.7)] bg-[color:rgb(var(--accent-rgb)/0.15)] text-[var(--accent)]"
                         : "border-white/10 bg-white/5 text-white/60"
                     }`}
                   >
@@ -157,8 +157,8 @@ export default function LabConfigurator() {
                       className={cn(
                         "rounded-[12px] border p-4 text-left transition",
                         config.cut === item.id
-                          ? "border-cyber-lime bg-cyber-lime/10 text-cyber-lime"
-                          : "border-white/10 bg-white/5 text-white/70 hover:border-cyber-lime/40"
+                          ? "border-[var(--accent)] bg-[color:rgb(var(--accent-rgb)/0.1)] text-[var(--accent)]"
+                          : "border-white/10 bg-white/5 text-white/70 hover:border-[color:rgb(var(--accent-rgb)/0.4)]"
                       )}
                     >
                       <div className="text-sm font-semibold">{item.name}</div>
@@ -205,17 +205,17 @@ export default function LabConfigurator() {
                 transition={{ duration: 0.3 }}
                 className="space-y-4"
               >
-                <div className="space-y-2 text-sm text-white/70">
-                  <div className="flex items-center justify-between">
-                    <span>Corte</span>
-                    <span className="text-cyber-lime">{active.name}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Personalización</span>
-                    <span className="text-cyber-lime">
-                      {config.text ? config.text.toUpperCase() : "Sin texto"}
-                    </span>
-                  </div>
+                  <div className="space-y-2 text-sm text-white/70">
+                    <div className="flex items-center justify-between">
+                      <span>Corte</span>
+                      <span className="text-[var(--accent)]">{active.name}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Personalización</span>
+                      <span className="text-[var(--accent)]">
+                        {config.text ? config.text.toUpperCase() : "Sin texto"}
+                      </span>
+                    </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.24em] text-white/50">
                   <span className="rounded border border-white/10 px-3 py-1">Serie limitada</span>

@@ -14,6 +14,11 @@ import { useCart } from "@/providers/cart-provider";
 import { blurDataUrl } from "@/lib/blur";
 
 const spans = ["md:col-span-2", "md:col-span-1", "md:col-span-1", "md:col-span-2", "md:col-span-1", "md:col-span-1"];
+const currencyFormatter = new Intl.NumberFormat("es-UY", {
+  style: "currency",
+  currency: "UYU",
+  maximumFractionDigits: 0,
+});
 
 type BentoCardProps = {
   product: Product;
@@ -80,7 +85,7 @@ function BentoCard({ product, span, onAdd, adding }: BentoCardProps) {
             ))}
           </div>
           <h3 className="text-xl font-semibold">{product.name}</h3>
-          <p className="text-sm text-white/60">${product.price.toFixed(0)}</p>
+          <p className="text-sm text-white/60">{currencyFormatter.format(product.price)}</p>
         </div>
         <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-white/50">
           <span className="h-2 w-2 rounded-full" style={{ backgroundColor: product.accent }} aria-hidden />
@@ -172,8 +177,12 @@ export default function BentoGrid({ products }: { products: Product[] }) {
   return (
     <section ref={sectionRef} id="lineup" className="relative container space-y-10 py-16">
       <motion.div
-        className="pointer-events-none absolute -top-6 right-10 h-32 w-32 rounded-full bg-cyber-lime/10 blur-3xl"
-        style={{ opacity: glowOpacity, scale: glowScale }}
+        className="pointer-events-none absolute -top-6 right-10 h-32 w-32 rounded-full blur-3xl"
+        style={{
+          backgroundColor: "rgb(var(--accent-rgb) / 0.12)",
+          opacity: glowOpacity,
+          scale: glowScale,
+        }}
         aria-hidden
       />
       <div className="flex items-center justify-between">
@@ -185,7 +194,7 @@ export default function BentoGrid({ products }: { products: Product[] }) {
             <h2 className="mt-2 text-3xl font-semibold">Escasez. Ingeniería. Exclusividad.</h2>
           </Reveal>
         </div>
-        <Link href="/collection" className="text-sm text-white/70 hover:text-cyber-lime hover:underline">
+        <Link href="/collection" className="text-sm text-white/70 hover:text-[var(--accent)] hover:underline">
           Ver colección completa
         </Link>
       </div>

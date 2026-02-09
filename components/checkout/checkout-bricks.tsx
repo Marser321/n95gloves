@@ -113,6 +113,9 @@ export default function CheckoutBricks() {
           setStatus("error");
           return;
         }
+        const styles = window.getComputedStyle(document.documentElement);
+        const accent = styles.getPropertyValue("--accent").trim() || "#9CA3AF";
+        const textPrimary = styles.getPropertyValue("--text-primary").trim() || "#f5f5f5";
         const mp = new window.MercadoPago(publicKey, { locale: "es-UY" });
         const bricksBuilder = mp.bricks();
         controller = await bricksBuilder.create("wallet", "wallet_container", {
@@ -121,9 +124,9 @@ export default function CheckoutBricks() {
           },
           customization: {
             visual: {
-              buttonBackground: "#2BFF4F",
+              buttonBackground: accent,
               borderRadius: "2px",
-              valuePropColor: "#f5f5f5",
+              valuePropColor: textPrimary,
             },
           },
         });

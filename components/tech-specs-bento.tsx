@@ -55,7 +55,7 @@ export function TechSpecsBento({
   product: Product;
   specs?: Partial<TechSpecs>;
 }) {
-  const accent = product.accent ?? "#2BFF4F";
+  const accent = product.accent ?? "#9CA3AF";
   const hexToRgb = (hex: string) => {
     const cleaned = hex.replace("#", "");
     if (cleaned.length !== 6) return null;
@@ -67,9 +67,9 @@ export function TechSpecsBento({
     return `${r}, ${g}, ${b}`;
   };
   const accentRgb = hexToRgb(accent);
-  const accentSoft = accentRgb ? `rgba(${accentRgb}, 0.12)` : "rgba(43, 255, 79, 0.12)";
-  const accentFill = accentRgb ? `rgba(${accentRgb}, 0.7)` : "rgba(43, 255, 79, 0.7)";
-  const accentGlow = accentRgb ? `rgba(${accentRgb}, 0.4)` : "rgba(43, 255, 79, 0.4)";
+  const accentSoft = accentRgb ? `rgba(${accentRgb}, 0.12)` : "rgba(156, 163, 175, 0.12)";
+  const accentFill = accentRgb ? `rgba(${accentRgb}, 0.7)` : "rgba(156, 163, 175, 0.7)";
+  const accentGlow = accentRgb ? `rgba(${accentRgb}, 0.4)` : "rgba(156, 163, 175, 0.4)";
   const resolved = useMemo(() => ({ ...defaultSpecs, ...specs }), [specs]);
   const [mounted, setMounted] = useState(false);
   const reduced = useReducedMotion();
@@ -252,7 +252,7 @@ export function TechSpecsBento({
                   <PolarGrid stroke="rgba(255,255,255,0.12)" strokeDasharray="3 6" />
                   <PolarAngleAxis
                     dataKey="metric"
-                    tick={{ fill: accent, fontSize: 11, letterSpacing: "0.18em", fontFamily: "var(--font-space-grotesk)" }}
+                    tick={{ fill: accent, fontSize: 11, letterSpacing: "0.18em", fontFamily: "var(--font-sans)" }}
                     tickLine={false}
                   />
                   <Radar

@@ -75,7 +75,13 @@ export default function ScrollyGlove() {
 
   return (
     <section ref={ref} className="relative py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(43,255,79,0.08),transparent_45%)]" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 70% 30%, rgb(var(--accent-rgb) / 0.1), transparent 45%)",
+        }}
+      />
       <div className="container grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-6 lg:sticky lg:top-24 lg:h-fit">
           <Reveal>
@@ -86,7 +92,8 @@ export default function ScrollyGlove() {
           </Reveal>
           <Reveal delay={0.16}>
             <p className="text-sm text-white/70">
-              Cada bloque cuenta una parte del rendimiento. Avanza y ve como el guante se expone por capas.
+              Cada bloque traduce una ventaja real en cancha. Avanza y observa cómo el guante
+              revela materiales, respuesta y ajuste.
             </p>
           </Reveal>
 
@@ -97,7 +104,13 @@ export default function ScrollyGlove() {
             )}
             style={reduced ? {} : { y: imageY, scale: imageScale }}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(43,255,79,0.12),transparent_45%)]" />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(circle at 30% 20%, rgb(var(--accent-rgb) / 0.14), transparent 45%)",
+              }}
+            />
             <AnimatePresence mode="wait">
               <motion.div
                 key={steps[active].image}

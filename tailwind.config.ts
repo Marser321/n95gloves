@@ -1,6 +1,8 @@
 import type { Config } from "tailwindcss";
 import tailwindAnimate from "tailwindcss-animate";
 
+const accent = "rgb(var(--accent-rgb) / <alpha-value>)";
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -19,24 +21,24 @@ const config: Config = {
     },
     extend: {
       colors: {
-        background: "#030303",
-        foreground: "#F7F9F5",
-        accent: "#2BFF4F",
-        muted: "#0C0C0C",
-        card: "#0A0A0A",
-        border: "rgba(255,255,255,0.06)",
+        background: "var(--bg)",
+        foreground: "var(--text-primary)",
+        accent,
+        muted: "var(--bg-alt)",
+        card: "var(--surface)",
+        border: "var(--border)",
         cyber: {
-          black: "#030303",
-          dark: "#0D0D0D",
-          gray: "#F7F9F5",
-          lime: "#2BFF4F",
+          black: "var(--bg)",
+          dark: "var(--bg-alt)",
+          gray: "var(--text-primary)",
+          lime: accent,
           danger: "#FF2E00",
         },
       },
       fontFamily: {
-        sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
-        mono: ["var(--font-space-grotesk)", "monospace"],
-        display: ["var(--font-teko)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)"],
+        mono: ["var(--font-sans)", "monospace"],
+        display: ["var(--font-display)"],
       },
       borderRadius: {
         lg: "4px",
@@ -45,10 +47,11 @@ const config: Config = {
         DEFAULT: "0px",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(43, 255, 79, 0.45), 0 0 35px rgba(43, 255, 79, 0.25)",
+        glow: "var(--glow)",
       },
       backgroundImage: {
-        spotlight: "radial-gradient(circle at center, #141414 0%, #030303 100%)",
+        spotlight:
+          "radial-gradient(circle at center, color-mix(in srgb, var(--accent) 10%, transparent), var(--bg) 100%)",
       },
       keyframes: {
         float: {
@@ -56,9 +59,9 @@ const config: Config = {
           "50%": { transform: "translateY(-6px)" },
         },
         pulseBorder: {
-          "0%": { boxShadow: "0 0 0 0 rgba(43, 255, 79, 0.45)" },
-          "70%": { boxShadow: "0 0 0 12px rgba(43, 255, 79, 0)" },
-          "100%": { boxShadow: "0 0 0 0 rgba(43, 255, 79, 0)" },
+          "0%": { boxShadow: "0 0 0 0 rgb(var(--accent-rgb) / 0.45)" },
+          "70%": { boxShadow: "0 0 0 12px rgb(var(--accent-rgb) / 0)" },
+          "100%": { boxShadow: "0 0 0 0 rgb(var(--accent-rgb) / 0)" },
         },
         particles: {
           "0%": { transform: "translateY(0px)", opacity: "0.6" },

@@ -102,7 +102,7 @@ export default function ProductGallery({ media, name, overlay, accent }: Product
           <button
             type="button"
             onClick={() => setZoomed((prev) => !prev)}
-            className="absolute bottom-3 right-3 z-30 rounded-full border border-white/20 bg-black/70 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/70 transition hover:border-cyber-lime/60 hover:text-white"
+            className="absolute bottom-3 right-3 z-30 rounded-full border border-white/20 bg-black/70 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/70 transition hover:border-[var(--accent)] hover:text-white"
             aria-pressed={zoomed}
             aria-label={zoomed ? "Cerrar zoom" : "Activar zoom"}
           >
@@ -122,7 +122,7 @@ export default function ProductGallery({ media, name, overlay, accent }: Product
               activeIndex === index
                 ? accent
                   ? "border-white/30"
-                  : "border-cyber-lime shadow-glow"
+                  : "border-[var(--accent)] shadow-[var(--glow)]"
                 : "border-white/10 hover:border-white/40"
             )}
             aria-label={item.type === "video" ? "Ver video" : "Ver imagen"}

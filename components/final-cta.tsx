@@ -9,7 +9,13 @@ export default function FinalCTA() {
   return (
     <section className="container py-16">
       <div className="relative overflow-hidden rounded-[16px] border border-white/10 bg-gradient-to-br from-white/5 via-black/60 to-black p-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(43,255,79,0.18),transparent_45%)]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 20% 30%, rgb(var(--accent-rgb) / 0.2), transparent 45%)",
+          }}
+        />
         <div className="relative z-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:items-center">
           <div className="space-y-3">
             <Reveal>
@@ -28,7 +34,7 @@ export default function FinalCTA() {
             <Magnetic>
               <Link
                 href="/product/n95-pro-defender"
-                className="inline-flex items-center gap-2 rounded-[2px] border border-transparent bg-cyber-lime px-5 py-3 text-sm font-semibold text-cyber-black shadow-glow"
+                className="inline-flex items-center gap-2 rounded-[2px] border border-transparent bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black shadow-[var(--glow)]"
               >
                 Comprar el modelo insignia
                 <ArrowRight className="h-4 w-4" />

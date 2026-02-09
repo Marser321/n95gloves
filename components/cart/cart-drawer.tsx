@@ -6,6 +6,12 @@ import { useCart } from "@/providers/cart-provider";
 import Image from "next/image";
 import Link from "next/link";
 
+const currencyFormatter = new Intl.NumberFormat("es-UY", {
+  style: "currency",
+  currency: "UYU",
+  maximumFractionDigits: 0,
+});
+
 export default function CartDrawer() {
   const { open, closeCart, items, increment, decrement, removeItem, total } = useCart();
 
@@ -46,7 +52,7 @@ export default function CartDrawer() {
                         +
                       </Button>
                     </div>
-                    <p className="text-sm font-semibold">${(item.price * item.quantity).toFixed(0)}</p>
+                    <p className="text-sm font-semibold">{currencyFormatter.format(item.price * item.quantity)}</p>
                   </div>
                 </div>
               </div>
@@ -57,12 +63,12 @@ export default function CartDrawer() {
         <div className="mt-auto space-y-3 border-t border-white/10 pt-4">
           <div className="flex items-center justify-between text-sm">
             <span className="text-white/60">Subtotal</span>
-            <span className="font-semibold">${total.toFixed(0)}</span>
+            <span className="font-semibold">{currencyFormatter.format(total)}</span>
           </div>
           <Button asChild className="w-full">
             <Link href="/checkout">Finalizar compra</Link>
           </Button>
-          <p className="text-xs text-white/50">Checkout mock listo para conectar a tu gateway.</p>
+          <p className="text-xs text-white/50">Checkout seguro listo. El total final se valida en servidor.</p>
         </div>
       </SheetContent>
     </Sheet>

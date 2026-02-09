@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     title: "Pagos seguros",
-    copy: "Aceptamos Visa, MasterCard, Amex y Apple Pay (placeholder).",
+    copy: "Aceptamos Visa, MasterCard, Amex y medios habilitados por Mercado Pago.",
     icon: Wallet,
   },
   {

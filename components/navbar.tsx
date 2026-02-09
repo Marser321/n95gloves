@@ -10,6 +10,7 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/s
 import { useCart } from "@/providers/cart-provider";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "@/components/motion/magnetic";
+import ThemeSwitcher from "@/components/theme/theme-switcher";
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -53,7 +54,7 @@ export default function Navbar() {
               href={link.href}
               className={cn(
                 "transition-colors hover:text-cyber-gray",
-                pathname === link.href ? "text-cyber-lime" : ""
+                pathname === link.href ? "text-[var(--accent)]" : ""
               )}
             >
               {link.label}
@@ -61,6 +62,9 @@ export default function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <div className="hidden xl:block">
+            <ThemeSwitcher compact />
+          </div>
           <Sheet>
             <SheetTrigger asChild>
               <Button type="button" variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu">
@@ -78,8 +82,8 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       className={cn(
-                        "rounded-md border border-white/10 bg-white/5 px-4 py-3 transition hover:border-cyber-lime/40",
-                        pathname === link.href ? "text-cyber-lime" : ""
+                        "rounded-md border border-white/10 bg-white/5 px-4 py-3 transition hover:border-[color:rgb(var(--accent-rgb)/0.4)]",
+                        pathname === link.href ? "text-[var(--accent)]" : ""
                       )}
                     >
                       {link.label}
@@ -90,13 +94,17 @@ export default function Navbar() {
                   <Link
                     href="/contact"
                     className={cn(
-                      "rounded-md border border-white/10 bg-white/5 px-4 py-3 transition hover:border-cyber-lime/40",
-                      pathname === "/contact" ? "text-cyber-lime" : ""
+                      "rounded-md border border-white/10 bg-white/5 px-4 py-3 transition hover:border-[color:rgb(var(--accent-rgb)/0.4)]",
+                      pathname === "/contact" ? "text-[var(--accent)]" : ""
                     )}
                   >
                     Contacto
                   </Link>
                 </SheetClose>
+              </div>
+              <div className="rounded-[10px] border border-white/10 bg-black/35 p-4">
+                <p className="mb-3 text-xs uppercase tracking-[0.28em] text-white/50">Tema</p>
+                <ThemeSwitcher />
               </div>
             </SheetContent>
           </Sheet>
@@ -110,7 +118,7 @@ export default function Navbar() {
             >
               <ShoppingBag className="h-5 w-5" />
               {itemCount > 0 && (
-                <span className="absolute -right-2 -top-2 h-5 min-w-[20px] rounded-full bg-cyber-lime px-1 text-[11px] font-semibold text-cyber-black">
+                <span className="absolute -right-2 -top-2 h-5 min-w-[20px] rounded-full bg-[var(--accent)] px-1 text-[11px] font-semibold text-black">
                   {itemCount}
                 </span>
               )}

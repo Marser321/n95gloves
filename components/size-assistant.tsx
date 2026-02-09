@@ -119,8 +119,8 @@ export default function SizeAssistant() {
                 onClick={() => setFit(option)}
                 className={`rounded-[10px] border px-4 py-2 text-sm transition ${
                   fit === option
-                    ? "border-cyber-lime bg-cyber-lime/10 text-cyber-lime"
-                    : "border-white/10 bg-white/5 text-white/70 hover:border-cyber-lime/40"
+                    ? "border-[var(--accent)] bg-[color:rgb(var(--accent-rgb)/0.1)] text-[var(--accent)]"
+                    : "border-white/10 bg-white/5 text-white/70 hover:border-[color:rgb(var(--accent-rgb)/0.4)]"
                 }`}
               >
                 {option === "ajustado" ? "Ceñido" : "Holgado"}
@@ -144,7 +144,7 @@ export default function SizeAssistant() {
                   Recomendación
                 </p>
                 <div className="flex items-end justify-between">
-                  <span className="text-3xl font-semibold text-cyber-lime">Talla {recommendation}</span>
+                  <span className="text-3xl font-semibold text-[var(--accent)]">Talla {recommendation}</span>
                   <span className="text-xs text-white/50">{fit === "ajustado" ? "Cenido" : "Holgado"}</span>
                 </div>
                 <div className="space-y-2">

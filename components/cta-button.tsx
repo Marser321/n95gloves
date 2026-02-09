@@ -13,7 +13,13 @@ export default function CTAButton({ className, children, asChild, ...props }: Bu
   const content = (
     <>
       <span className="absolute inset-0 rounded-[2px] opacity-0 transition-opacity duration-300 group-hover:opacity-20 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.6),transparent_45%)]" />
-      <span className="pointer-events-none absolute -inset-10 bg-gradient-to-r from-cyber-lime/40 via-white/20 to-cyber-lime/40 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-50" />
+      <span
+        className="pointer-events-none absolute -inset-10 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-50"
+        style={{
+          background:
+            "linear-gradient(to right, rgb(var(--accent-rgb) / 0.4), rgb(255 255 255 / 0.2), rgb(var(--accent-rgb) / 0.4))",
+        }}
+      />
       <Sparkles className="mr-2 h-4 w-4" />
       <span className="relative z-10">{label}</span>
     </>
@@ -25,7 +31,7 @@ export default function CTAButton({ className, children, asChild, ...props }: Bu
       <Magnetic>
         <Button
           className={cn(
-            "group relative overflow-hidden border border-transparent text-cyber-black shadow-glow transition-all hover:shadow-[0_0_0_1px_rgba(43,255,79,0.5),0_0_35px_rgba(43,255,79,0.45)]",
+            "group relative overflow-hidden border border-transparent text-black shadow-[var(--glow)] transition-all hover:shadow-[var(--glow)]",
             className
           )}
           {...props}
@@ -41,7 +47,7 @@ export default function CTAButton({ className, children, asChild, ...props }: Bu
     <Magnetic>
       <Button
         className={cn(
-          "group relative overflow-hidden border border-transparent text-cyber-black shadow-glow transition-all hover:shadow-[0_0_0_1px_rgba(43,255,79,0.5),0_0_35px_rgba(43,255,79,0.45)]",
+          "group relative overflow-hidden border border-transparent text-black shadow-[var(--glow)] transition-all hover:shadow-[var(--glow)]",
           className
         )}
         {...props}

@@ -90,7 +90,7 @@ export default function TechSection() {
         ))}
       </RevealGroup>
       <div className="flex flex-wrap items-center gap-4 text-sm">
-        <Link href="/product/n95-pro-defender" className="inline-flex items-center gap-2 text-white/75 hover:text-cyber-lime hover:underline">
+        <Link href="/product/n95-pro-defender" className="inline-flex items-center gap-2 text-white/75 hover:text-[var(--accent)] hover:underline">
           Ver el modelo con tecnología completa
           <ArrowRight className="h-4 w-4" />
         </Link>

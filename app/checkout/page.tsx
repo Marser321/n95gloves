@@ -20,7 +20,7 @@ export default function CheckoutPage() {
           </p>
         </Reveal>
         <Reveal delay={0.22}>
-          <Link href="/#lineup" className="text-sm text-cyber-lime hover:underline">
+          <Link href="/#lineup" className="text-sm text-[var(--accent)] hover:underline">
             Seguir explorando modelos
           </Link>
         </Reveal>

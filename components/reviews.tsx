@@ -46,9 +46,9 @@ export default function Reviews() {
             key={review.name}
             className="rounded-[12px] border border-white/10 bg-white/5 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
           >
-            <div className="flex items-center gap-1 text-cyber-lime">
+            <div className="flex items-center gap-1 text-[var(--accent)]">
               {Array.from({ length: 5 }).map((_, idx) => (
-                <Star key={idx} className="h-4 w-4 fill-cyber-lime" aria-hidden />
+                <Star key={idx} className="h-4 w-4 fill-[var(--accent)]" aria-hidden />
               ))}
             </div>
             <p className="mt-4 text-sm text-white/70">“{review.quote}”</p>

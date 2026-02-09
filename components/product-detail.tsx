@@ -1,7 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/providers/cart-provider";
@@ -27,22 +34,29 @@ type SizeRecommendation = {
 };
 
 const SIZE_RECO_KEY = "n95-size-reco";
+const currencyFormatter = new Intl.NumberFormat("es-UY", {
+  style: "currency",
+  currency: "UYU",
+  maximumFractionDigits: 0,
+});
+
+const hexToRgb = (hex: string) => {
+  const cleaned = hex.replace("#", "");
+  if (cleaned.length !== 6) return null;
+  const num = Number.parseInt(cleaned, 16);
+  if (Number.isNaN(num)) return null;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `${r}, ${g}, ${b}`;
+};
 
 export default function ProductDetail({ product }: { product: Product }) {
-  const accent = product.accent ?? "#2BFF4F";
-  const hexToRgb = (hex: string) => {
-    const cleaned = hex.replace("#", "");
-    if (cleaned.length !== 6) return null;
-    const num = Number.parseInt(cleaned, 16);
-    if (Number.isNaN(num)) return null;
-    const r = (num >> 16) & 255;
-    const g = (num >> 8) & 255;
-    const b = num & 255;
-    return `${r}, ${g}, ${b}`;
-  };
+  const accent = product.accent || "#9CA3AF";
   const accentRgb = hexToRgb(accent);
-  const accentSoft = accentRgb ? `rgba(${accentRgb}, 0.12)` : "rgba(43, 255, 79, 0.12)";
-  const accentBorder = accentRgb ? `rgba(${accentRgb}, 0.55)` : "rgba(43, 255, 79, 0.55)";
+  const accentSoft = accentRgb ? `rgba(${accentRgb}, 0.12)` : "rgba(156, 163, 175, 0.12)";
+  const accentBorder = accentRgb ? `rgba(${accentRgb}, 0.55)` : "rgba(156, 163, 175, 0.55)";
+
   const imageRef = useRef<HTMLDivElement | null>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress: imageScroll } = useScroll({
@@ -52,11 +66,14 @@ export default function ProductDetail({ product }: { product: Product }) {
   const hotspotOffset = useTransform(imageScroll, [0, 1], [-6, 6]);
   const imageRotate = useTransform(imageScroll, [0, 1], reduced ? [0, 0] : [-2, 2]);
   const imageTilt = useTransform(imageScroll, [0, 1], reduced ? [0, 0] : [1.5, -1.5]);
+
   const [focus, setFocus] = useState<keyof typeof focusPoints>("palm");
   const [hovered, setHovered] = useState<keyof typeof focusPoints | null>(null);
   const [adding, setAdding] = useState(false);
-  const { addItem, openCart } = useCart();
   const [sizeOpen, setSizeOpen] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
+  const { addItem, openCart } = useCart();
+
   const readSavedSize = () => {
     if (typeof window === "undefined") return null;
     const stored = localStorage.getItem(SIZE_RECO_KEY);
@@ -67,14 +84,15 @@ export default function ProductDetail({ product }: { product: Product }) {
       return null;
     }
   };
+
   const [savedSize, setSavedSize] = useState<SizeRecommendation | null>(() => readSavedSize());
-  const [justAdded, setJustAdded] = useState(false);
 
   const anatomyCopy = {
     dorsal: product.featureCopy.dorsal,
     palm: product.featureCopy.palm,
     wrist: product.featureCopy.wrist,
   };
+
   const scrollySteps = [
     {
       key: "dorsal",
@@ -96,16 +114,21 @@ export default function ProductDetail({ product }: { product: Product }) {
     },
   ] as const;
 
+  const siblingProducts = products.filter((item) => item.id !== product.id);
+
   const handleAdd = () => {
     if (adding) return;
     setAdding(true);
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      slug: product.slug,
-      image: product.image,
-    }, { openCart: false });
+    addItem(
+      {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        slug: product.slug,
+        image: product.image,
+      },
+      { openCart: false }
+    );
     window.setTimeout(() => setAdding(false), 900);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1400);
@@ -115,8 +138,6 @@ export default function ProductDetail({ product }: { product: Product }) {
     setSizeOpen(open);
     setSavedSize(readSavedSize());
   };
-
-  const siblingProducts = products.filter((p) => p.id !== product.id);
 
   const galleryOverlay = (
     <>
@@ -145,7 +166,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               aria-label={`Destacar ${key === "dorsal" ? "dorso" : key === "palm" ? "palma" : "muñequera"}`}
               aria-pressed={focus === key}
               aria-controls="anatomy-panel"
-              className="relative -translate-x-1/2 -translate-y-1/2 rounded-full border p-2 shadow-glow transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-lime/60"
+              className="relative -translate-x-1/2 -translate-y-1/2 rounded-full border p-2 shadow-[var(--glow)] transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
               onMouseEnter={() => {
                 setHovered(key);
                 setFocus(key);
@@ -198,21 +219,32 @@ export default function ProductDetail({ product }: { product: Product }) {
               className="relative [transform-style:preserve-3d]"
               style={{ rotateX: imageTilt, rotateZ: imageRotate }}
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.16),transparent_50%)] blur-3xl" />
-              <ProductGallery media={product.media} name={product.name} overlay={galleryOverlay} accent={accent} />
+              <div
+                className="absolute inset-0 blur-3xl"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 50%, rgb(var(--accent-rgb) / 0.18), transparent 50%)",
+                }}
+              />
+              <ProductGallery
+                media={product.media}
+                name={product.name}
+                overlay={galleryOverlay}
+                accent={accent}
+              />
             </motion.div>
           </div>
+
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <div className="rounded-[10px] border border-white/10 bg-black/60 p-3 text-sm text-white/70">
-              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Render 3D</p>
-              <p className="mt-2">
-                Próximamente podrás rotar el modelo en 360°. Subiremos el render en cuanto lo tengamos.
-              </p>
+              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Posicionamiento</p>
+              <p className="mt-2">{product.positioning}</p>
             </div>
             <div className="rounded-[10px] border border-white/10 bg-black/60 p-3 text-sm text-white/70">
-              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Video highlight</p>
+              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Media temporal editorial</p>
               <p className="mt-2">
-                Placeholder para un clip corto de uso real. Se reproducirá inline en la galería.
+                Esta ficha ya usa estructura final de contenido y slots visuales reemplazables para subir
+                fotografía oficial sin tocar el layout.
               </p>
             </div>
           </div>
@@ -221,82 +253,112 @@ export default function ProductDetail({ product }: { product: Product }) {
 
       <div className="space-y-8">
         <div className="space-y-3">
-        <Reveal>
-          <Badge>Edición Pro</Badge>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <h1 className="section-title text-4xl font-semibold leading-tight">{product.name}</h1>
-        </Reveal>
-        <Reveal delay={0.16}>
-          <p className="text-lg text-white/70">{product.summary}</p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <p className="text-3xl font-semibold" style={{ color: accent }}>
-            ${product.price.toFixed(0)}
-          </p>
-        </Reveal>
-        <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/50">Ficha rápida</p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
-              <span className="text-white/60">Corte</span>
-              <span className="font-semibold">{product.quickSpecs?.cut ?? product.tags.join(", ")}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
-              <span className="text-white/60">Clima</span>
-              <span className="font-semibold">{product.quickSpecs?.climate ?? "Multi-clima"}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
-              <span className="text-white/60">Peso</span>
-              <span className="font-semibold">{product.quickSpecs?.weight ?? "210g"}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
-              <span className="text-white/60">Látex</span>
-              <span className="font-semibold">{product.quickSpecs?.latex ?? "4mm premium"}</span>
+          <Reveal>
+            <Badge>{product.tagline}</Badge>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h1 className="section-title text-4xl font-semibold leading-tight">{product.name}</h1>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <p className="text-lg text-white/70">{product.summary}</p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-3xl font-semibold" style={{ color: accent }}>
+              {currencyFormatter.format(product.price)}
+            </p>
+          </Reveal>
+
+          <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/50">Ficha rápida</p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+                <span className="text-white/60">Corte</span>
+                <span className="font-semibold">{product.quickSpecs?.cut ?? product.tags.join(", ")}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+                <span className="text-white/60">Clima</span>
+                <span className="font-semibold">{product.quickSpecs?.climate ?? "Multi-clima"}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+                <span className="text-white/60">Peso</span>
+                <span className="font-semibold">{product.quickSpecs?.weight ?? "210g"}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+                <span className="text-white/60">Látex</span>
+                <span className="font-semibold">{product.quickSpecs?.latex ?? "4mm premium"}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-wrap gap-2 text-xs">
-          <span className="rounded-[6px] border border-white/10 bg-white/5 px-3 py-1 text-white/60 uppercase tracking-[0.22em]">
-            Variantes de color
-          </span>
-          {siblingProducts.map((sibling) => (
-            <button
-              key={sibling.id}
-              type="button"
-              onClick={() => window.location.assign(`/product/${sibling.slug}`)}
-              className="flex items-center gap-2 rounded-[6px] border border-white/10 bg-black/30 px-3 py-1 text-white/75 transition hover:border-white/30"
-            >
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: sibling.accent }} aria-hidden />
-              {sibling.name}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-3 text-xs text-white/60">
-          <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
-            Envío rápido 24-48h
-          </span>
-          <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
-              Devolución 30 días
-            </span>
-            <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
-              Garantía oficial
-            </span>
+
+          <div className="rounded-[10px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+            <p className="text-xs uppercase tracking-[0.28em] text-white/50">Perfil ideal</p>
+            <div className="mt-3 space-y-2">
+              <p>
+                <span className="text-white/55">Ideal para:</span> {product.idealFor}
+              </p>
+              <p>
+                <span className="text-white/55">Estilo de juego:</span> {product.playStyle}
+              </p>
+              <p>
+                <span className="text-white/55">Superficie:</span> {product.surface}
+              </p>
+              <p>
+                <span className="text-white/55">Clima objetivo:</span> {product.weather}
+              </p>
+            </div>
           </div>
+
+          <div className="rounded-[10px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+            <p className="text-xs uppercase tracking-[0.28em] text-white/50">Por qué elegirlo</p>
+            <ul className="mt-3 space-y-2">
+              {product.benefits.map((benefit) => (
+                <li key={benefit}>· {benefit}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-wrap gap-2 text-xs">
+            <span className="rounded-[6px] border border-white/10 bg-white/5 px-3 py-1 text-white/60 uppercase tracking-[0.22em]">
+              Otras variantes
+            </span>
+            {siblingProducts.map((sibling) => (
+              <Link
+                key={sibling.id}
+                href={`/product/${sibling.slug}`}
+                className="flex items-center gap-2 rounded-[6px] border border-white/10 bg-black/30 px-3 py-1 text-white/75 transition hover:border-white/30"
+              >
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: sibling.accent }} aria-hidden />
+                {sibling.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-3 text-xs text-white/60">
+            <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">Envío rápido 24-48h</span>
+            <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">Devolución 30 días</span>
+            <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">Garantía oficial</span>
+          </div>
+
           {savedSize && (
             <div className="text-xs text-white/60">
-              Tu talla recomendada:{" "}
-              <span className="font-semibold" style={{ color: accent }}>
-                Talla {savedSize.size}
-              </span>{" "}
-              ·{" "}
+              Tu talla recomendada: <span className="font-semibold" style={{ color: accent }}>Talla {savedSize.size}</span> ·{" "}
               {savedSize.fit === "ajustado" ? "Ceñido" : "Holgado"}
             </div>
           )}
+
           <div className="flex items-center gap-3">
-            <Button type="button" onClick={handleAdd} className="shadow-glow min-w-[220px]" size="lg" disabled={adding} aria-busy={adding}>
+            <Button
+              type="button"
+              onClick={handleAdd}
+              className="shadow-[var(--glow)] min-w-[220px]"
+              size="lg"
+              disabled={adding}
+              aria-busy={adding}
+            >
               <span className="flex items-center gap-2" role="status" aria-live="polite">
-                {adding && <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />}
+                {adding && (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
+                )}
                 {adding ? "Agregando..." : "Añadir al Carrito"}
               </span>
             </Button>
@@ -304,6 +366,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               {savedSize ? "Editar talla" : "Encuentra tu talla"}
             </Button>
           </div>
+
           <AnimatePresence>
             {justAdded && (
               <motion.div
@@ -322,15 +385,6 @@ export default function ProductDetail({ product }: { product: Product }) {
               </motion.div>
             )}
           </AnimatePresence>
-          <div className="rounded-[8px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
-            <p className="text-xs uppercase tracking-[0.24em] text-white/50">Completa tu kit</p>
-            <div className="mt-2 flex flex-wrap gap-2 text-xs uppercase tracking-[0.22em] text-white/60">
-              <span className="rounded border border-white/10 px-2 py-1">Spray de grip</span>
-              <span className="rounded border border-white/10 px-2 py-1">Toalla técnica</span>
-              <span className="rounded border border-white/10 px-2 py-1">Bolsa premium</span>
-            </div>
-            <p className="mt-2 text-xs text-white/50">Accesorios boutique disponibles próximamente.</p>
-          </div>
         </div>
 
         <div className="space-y-4" id="tech">
@@ -343,7 +397,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                 type="button"
                 aria-pressed={focus === key}
                 aria-controls="anatomy-panel"
-                className="rounded-[2px] border px-3 py-2 text-sm transition border-white/15 bg-white/5 text-white/70 hover:border-white/40"
+                className="rounded-[2px] border border-white/15 bg-white/5 px-3 py-2 text-sm text-white/70 transition hover:border-white/40"
                 style={
                   focus === key
                     ? { borderColor: accentBorder, color: accent, backgroundColor: accentSoft }
@@ -374,14 +428,14 @@ export default function ProductDetail({ product }: { product: Product }) {
                 <motion.div
                   onViewportEnter={() => setFocus(step.key)}
                   viewport={{ amount: 0.6 }}
-                className="rounded-[12px] border p-6 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition border-white/10 bg-white/5"
-                style={
-                  focus === step.key
-                    ? { borderColor: accentBorder, backgroundColor: accentSoft }
-                    : undefined
-                }
-              >
-                <p className="text-[11px] uppercase tracking-[0.28em] text-white/50">{step.kicker}</p>
+                  className="rounded-[12px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition"
+                  style={
+                    focus === step.key
+                      ? { borderColor: accentBorder, backgroundColor: accentSoft }
+                      : undefined
+                  }
+                >
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-white/50">{step.kicker}</p>
                   <h3 className="mt-3 text-2xl font-semibold">{step.title}</h3>
                   <p className="mt-3 text-sm text-white/70">{step.copy}</p>
                 </motion.div>
@@ -391,22 +445,29 @@ export default function ProductDetail({ product }: { product: Product }) {
         </div>
 
         <div className="space-y-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/50">Especificaciones</p>
-          <ul className="space-y-2 text-sm text-white/70">
-            <li>· Corte: {product.tags.join(", ")}</li>
-            <li>· Palma: Látex alemán 4mm + espuma visco</li>
-            <li>· Cuerpo: Neopreno microperforado de compresión</li>
-            <li>· Clima: Seco, lluvia y sintético</li>
-          </ul>
+          <p className="text-xs uppercase tracking-[0.3em] text-white/50">Highlights técnicos</p>
+          <div className="grid gap-3 md:grid-cols-3">
+            {product.techHighlights.map((highlight) => (
+              <article
+                key={highlight.title}
+                className="rounded-[10px] border border-white/10 bg-black/35 p-4 text-sm text-white/70"
+              >
+                <p className="text-xs uppercase tracking-[0.24em]" style={{ color: accent }}>
+                  {highlight.title}
+                </p>
+                <p className="mt-2">{highlight.copy}</p>
+              </article>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-white/50">Qué incluye</p>
           <div className="rounded-[8px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
             <ul className="space-y-2">
-              <li>· 1 par de guantes N95 en su funda protectora.</li>
-              <li>· Tarjeta de cuidado y guía de ajuste.</li>
-              <li>· Acceso a soporte post-venta boutique.</li>
+              {product.includes.map((item) => (
+                <li key={item}>· {item}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -414,15 +475,29 @@ export default function ProductDetail({ product }: { product: Product }) {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2 rounded-[8px] border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.3em] text-white/50">Cuidado</p>
-            <p className="text-sm text-white/70">
-              Enjuagar con agua fría después de cada uso. Secar a la sombra.
-            </p>
+            <ul className="space-y-2 text-sm text-white/70">
+              {product.care.map((tip) => (
+                <li key={tip}>· {tip}</li>
+              ))}
+            </ul>
           </div>
           <div className="space-y-2 rounded-[8px] border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.3em] text-white/50">Fit</p>
             <p className="text-sm text-white/70">
-              Ajuste híbrido firme. Recomendamos media talla arriba si preferís más espacio.
+              {product.quickSpecs?.cut} con respuesta firme. Si preferís más espacio en dedos, subí medio talle.
             </p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-white/50">Preguntas frecuentes</p>
+          <div className="space-y-3">
+            {product.faq.map((item) => (
+              <article key={item.question} className="rounded-[8px] border border-white/10 bg-white/5 p-4">
+                <p className="text-sm font-semibold text-white/85">{item.question}</p>
+                <p className="mt-2 text-sm text-white/70">{item.answer}</p>
+              </article>
+            ))}
           </div>
         </div>
 
@@ -441,10 +516,16 @@ export default function ProductDetail({ product }: { product: Product }) {
           <div>
             <p className="text-sm text-white/70">{product.name}</p>
             <p className="text-lg font-semibold" style={{ color: accent }}>
-              ${product.price.toFixed(0)}
+              {currencyFormatter.format(product.price)}
             </p>
           </div>
-          <Button type="button" onClick={handleAdd} className="shadow-glow" aria-busy={adding} disabled={adding}>
+          <Button
+            type="button"
+            onClick={handleAdd}
+            className="shadow-[var(--glow)]"
+            aria-busy={adding}
+            disabled={adding}
+          >
             <span role="status" aria-live="polite">
               {adding ? "Agregando..." : "Añadir al Carrito"}
             </span>

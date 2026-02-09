@@ -3,13 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --color-background: #030303;
-  --color-foreground: #f7f9f5;
-  --color-accent: #2bff4f;
+  --font-sans: "Space Grotesk", "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Teko", "Bebas Neue", "Arial Narrow", sans-serif;
+
+  --bg: #040804;
+  --bg-alt: #071008;
+  --surface: rgba(11, 18, 12, 0.84);
+  --surface-alt: rgba(19, 31, 21, 0.74);
+  --border: rgba(163, 231, 173, 0.22);
+  --text-primary: #f4f8f2;
+  --text-muted: rgba(229, 241, 232, 0.72);
+  --accent: #2bff4f;
+  --accent-rgb: 43 255 79;
+  --accent-soft: rgba(43, 255, 79, 0.16);
+  --ring: rgba(43, 255, 79, 0.55);
+  --glow: 0 0 0 1px rgba(43, 255, 79, 0.4), 0 0 35px rgba(43, 255, 79, 0.3);
+  --particle-a-rgb: 43 255 79;
+  --particle-b-rgb: 216 255 226;
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 * {
@@ -18,21 +33,23 @@ html {
 
 body {
   @apply bg-cyber-black text-cyber-gray;
-  background: radial-gradient(circle at 20% 20%, rgba(43, 255, 79, 0.025), transparent 28%),
-    radial-gradient(circle at 80% 0%, rgba(43, 255, 79, 0.03), transparent 30%),
-    #030303;
-  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgb(var(--accent-rgb) / 0.05), transparent 28%),
+    radial-gradient(circle at 80% 0%, rgb(var(--accent-rgb) / 0.04), transparent 30%),
+    linear-gradient(180deg, var(--bg-alt), var(--bg));
+  color: var(--text-primary);
+  font-family: var(--font-sans);
   min-height: 100vh;
 }
 
 .section-title {
-  font-family: var(--font-teko), system-ui, sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 0.04em;
 }
 
 .focus-ring {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(43, 255, 79, 0.55);
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
 .motion-smooth {
@@ -40,16 +57,17 @@ body {
 }
 
 .glass {
-  @apply backdrop-blur-2xl border border-white/15 shadow-lg;
+  @apply backdrop-blur-2xl border shadow-lg;
+  border-color: var(--border);
   background: linear-gradient(
     130deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0.02)
+    color-mix(in srgb, var(--surface-alt) 70%, transparent),
+    color-mix(in srgb, var(--surface) 70%, transparent)
   );
 }
 
 .glow-ring {
-  box-shadow: 0 0 0 1px rgba(43, 255, 79, 0.45), 0 0 35px rgba(43, 255, 79, 0.25);
+  box-shadow: var(--glow);
 }
 
 .particle {
@@ -57,8 +75,8 @@ body {
   width: 3px;
   height: 3px;
   border-radius: 9999px;
-  background: rgba(245, 255, 248, 0.65);
-  filter: drop-shadow(0 0 8px rgba(43, 255, 79, 0.2));
+  background: rgb(var(--particle-b-rgb) / 0.65);
+  filter: drop-shadow(0 0 8px rgb(var(--particle-a-rgb) / 0.24));
 }
 
 .no-scrollbar::-webkit-scrollbar {

@@ -41,7 +41,7 @@ export default function StorySection() {
           </Reveal>
           <Reveal delay={0.22}>
             <div className="flex flex-wrap items-center gap-4 text-sm">
-              <Link href="/lookbook" className="text-cyber-lime hover:underline">
+              <Link href="/lookbook" className="text-[var(--accent)] hover:underline">
                 Ver lookbook
               </Link>
               <Link href="/collection" className="inline-flex items-center gap-2 text-white/70 hover:text-cyber-gray">

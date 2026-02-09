@@ -27,7 +27,13 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section className={cn("relative overflow-hidden pt-28 pb-12", className)}>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(43,255,79,0.12),transparent_40%)]" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 20% 20%, rgb(var(--accent-rgb) / 0.15), transparent 40%)",
+        }}
+      />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" />
       <div className="container relative z-10 space-y-6">
         <Reveal>

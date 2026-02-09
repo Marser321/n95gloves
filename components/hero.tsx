@@ -26,7 +26,7 @@ export default function Hero() {
   const y = useMotionValue(50);
   const springX = useSpring(x, { stiffness: 120, damping: 12, mass: 0.15 });
   const springY = useSpring(y, { stiffness: 120, damping: 12, mass: 0.15 });
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${springX}% ${springY}%, rgba(43,255,79,0.12), rgba(3,3,3,0) 55%)`;
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${springX}% ${springY}%, rgb(var(--accent-rgb) / 0.15), rgba(3,3,3,0) 55%)`;
   const imageX = useTransform(springX, [0, 100], [-10, 10]);
   const imageY = useTransform(springY, [0, 100], [-10, 10]);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
@@ -71,7 +71,7 @@ export default function Hero() {
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-[2px] border border-white/15 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-white/70">
               Edición Atelier
-              <span className="h-1.5 w-1.5 rounded-full bg-cyber-lime shadow-glow" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[var(--glow)]" />
             </div>
           </Reveal>
           <motion.h1
@@ -141,7 +141,13 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <div className="pointer-events-none absolute inset-0 scale-110 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.12),transparent_45%)] blur-3xl" />
+          <div
+            className="pointer-events-none absolute inset-0 scale-110 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 50%, rgb(var(--accent-rgb) / 0.15), transparent 45%)",
+            }}
+          />
           <motion.div
             className="relative isolate mx-auto max-w-[480px] overflow-visible"
             style={{ x: imageX, y: combinedY }}
