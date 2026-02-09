@@ -88,7 +88,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           className="sticky top-24 overflow-hidden rounded-[16px] border border-white/12 bg-gradient-to-b from-white/8 via-black/40 to-black/70 p-4 backdrop-blur-xl shadow-[0_25px_80px_rgba(0,0,0,0.35)]"
         >
           <div className="relative">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,243,74,0.16),transparent_50%)] blur-3xl" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(57,255,20,0.16),transparent_50%)] blur-3xl" />
             <motion.div
               className="relative z-10"
               whileHover={{ scale: 1.03 }}

@@ -19,24 +19,24 @@ const config: Config = {
     },
     extend: {
       colors: {
-        background: "#050505",
+        background: "#030303",
         foreground: "#F5F5F5",
-        accent: "#D4F34A",
-        muted: "#111111",
+        accent: "#39FF14",
+        muted: "#0C0C0C",
         card: "#0A0A0A",
         border: "rgba(255,255,255,0.06)",
         cyber: {
-          black: "#050505",
-          dark: "#111111",
+          black: "#030303",
+          dark: "#0D0D0D",
           gray: "#F5F5F5",
-          lime: "#D4F34A",
+          lime: "#39FF14",
           danger: "#FF2E00",
         },
       },
       fontFamily: {
-        sans: ["var(--font-manrope)", "system-ui", "sans-serif"],
+        sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         mono: ["var(--font-space-grotesk)", "monospace"],
-        serif: ["var(--font-cormorant)", "serif"],
+        display: ["var(--font-teko)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "4px",
@@ -45,10 +45,10 @@ const config: Config = {
         DEFAULT: "0px",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(212, 243, 74, 0.35), 0 0 25px rgba(212, 243, 74, 0.18)",
+        glow: "0 0 0 1px rgba(57, 255, 20, 0.35), 0 0 25px rgba(57, 255, 20, 0.18)",
       },
       backgroundImage: {
-        spotlight: "radial-gradient(circle at center, #1a1a1a 0%, #050505 100%)",
+        spotlight: "radial-gradient(circle at center, #141414 0%, #030303 100%)",
       },
       keyframes: {
         float: {
@@ -56,9 +56,9 @@ const config: Config = {
           "50%": { transform: "translateY(-6px)" },
         },
         pulseBorder: {
-          "0%": { boxShadow: "0 0 0 0 rgba(212, 243, 74, 0.4)" },
-          "70%": { boxShadow: "0 0 0 12px rgba(212, 243, 74, 0)" },
-          "100%": { boxShadow: "0 0 0 0 rgba(212, 243, 74, 0)" },
+          "0%": { boxShadow: "0 0 0 0 rgba(57, 255, 20, 0.4)" },
+          "70%": { boxShadow: "0 0 0 12px rgba(57, 255, 20, 0)" },
+          "100%": { boxShadow: "0 0 0 0 rgba(57, 255, 20, 0)" },
         },
         particles: {
           "0%": { transform: "translateY(0px)", opacity: "0.6" },

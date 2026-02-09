@@ -57,7 +57,7 @@ export default function HeroCanvas() {
           drop.y = -drop.len;
           drop.x = Math.random() * width;
         }
-        ctx.strokeStyle = `rgba(212, 243, 74, ${drop.alpha})`;
+        ctx.strokeStyle = `rgba(57, 255, 20, ${drop.alpha})`;
         ctx.lineWidth = drop.w;
         ctx.beginPath();
         ctx.moveTo(drop.x, drop.y);
@@ -81,7 +81,7 @@ export default function HeroCanvas() {
       raf = requestAnimationFrame(drawFrame);
     } else {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "rgba(212, 243, 74, 0.06)";
+      ctx.fillStyle = "rgba(57, 255, 20, 0.06)";
       ctx.fillRect(0, 0, width, height);
     }
 

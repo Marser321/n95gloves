@@ -107,8 +107,8 @@ export function TechSpecsBento({
             >
               <defs>
                 <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#D4F34A" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#D4F34A" stopOpacity="0.2" />
+                  <stop offset="0%" stopColor="#39FF14" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#39FF14" stopOpacity="0.2" />
                 </linearGradient>
               </defs>
               <motion.path
@@ -135,7 +135,7 @@ export function TechSpecsBento({
                 cx="195"
                 cy="100"
                 r="8"
-                fill="#D4F34A"
+                fill="#39FF14"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.5, type: "spring", stiffness: 240, damping: 16 }}
@@ -230,13 +230,13 @@ export function TechSpecsBento({
                   <PolarGrid stroke="rgba(255,255,255,0.12)" strokeDasharray="3 6" />
                   <PolarAngleAxis
                     dataKey="metric"
-                    tick={{ fill: "#D4F34A", fontSize: 11, letterSpacing: "0.18em", fontFamily: "var(--font-space-grotesk)" }}
+                    tick={{ fill: "#39FF14", fontSize: 11, letterSpacing: "0.18em", fontFamily: "var(--font-space-grotesk)" }}
                     tickLine={false}
                   />
                   <Radar
                     dataKey="value"
-                    stroke="#D4F34A"
-                    fill="#D4F34A"
+                    stroke="#39FF14"
+                    fill="#39FF14"
                     fillOpacity={0.25}
                     strokeWidth={2}
                     isAnimationActive
@@ -246,7 +246,7 @@ export function TechSpecsBento({
                 </RadarChart>
               </ResponsiveContainer>
             )}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,243,74,0.12),transparent_55%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(57,255,20,0.12),transparent_55%)]" />
           </div>
         </motion.div>
       </motion.div>
@@ -282,7 +282,7 @@ function MaterialMacro({ image }: { image: string }) {
         style={{
           maskImage: `radial-gradient(140px at ${pos.x}% ${pos.y}%, rgba(255,255,255,0.9), rgba(255,255,255,0) 60%)`,
           WebkitMaskImage: `radial-gradient(140px at ${pos.x}% ${pos.y}%, rgba(255,255,255,0.9), rgba(255,255,255,0) 60%)`,
-          background: "linear-gradient(135deg, rgba(212,243,74,0.25), rgba(212,243,74,0.05))",
+          background: "linear-gradient(135deg, rgba(57,255,20,0.25), rgba(57,255,20,0.05))",
         }}
       />
       <div className="absolute inset-0 ring-1 ring-white/10 transition group-hover:ring-cyber-lime/60" />

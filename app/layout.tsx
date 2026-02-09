@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk, Teko } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { CartProvider } from "@/providers/cart-provider";
 import CartDrawer from "@/components/cart/cart-drawer";
 import PageTransition from "@/components/motion/page-transition";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  display: "swap",
-});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -18,9 +12,9 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
+const teko = Teko({
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-teko",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
@@ -38,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark">
       <body
-        className={`${manrope.variable} ${spaceGrotesk.variable} ${cormorant.variable} antialiased bg-cyber-black text-cyber-gray`}
+        className={`${spaceGrotesk.variable} ${teko.variable} antialiased bg-cyber-black text-cyber-gray`}
       >
         <CartProvider>
           <Navbar />
