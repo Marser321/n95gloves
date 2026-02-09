@@ -55,6 +55,21 @@ export function TechSpecsBento({
   product: Product;
   specs?: Partial<TechSpecs>;
 }) {
+  const accent = product.accent ?? "#2BFF4F";
+  const hexToRgb = (hex: string) => {
+    const cleaned = hex.replace("#", "");
+    if (cleaned.length !== 6) return null;
+    const num = Number.parseInt(cleaned, 16);
+    if (Number.isNaN(num)) return null;
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `${r}, ${g}, ${b}`;
+  };
+  const accentRgb = hexToRgb(accent);
+  const accentSoft = accentRgb ? `rgba(${accentRgb}, 0.12)` : "rgba(43, 255, 79, 0.12)";
+  const accentFill = accentRgb ? `rgba(${accentRgb}, 0.7)` : "rgba(43, 255, 79, 0.7)";
+  const accentGlow = accentRgb ? `rgba(${accentRgb}, 0.4)` : "rgba(43, 255, 79, 0.4)";
   const resolved = useMemo(() => ({ ...defaultSpecs, ...specs }), [specs]);
   const [mounted, setMounted] = useState(false);
   const reduced = useReducedMotion();
@@ -107,8 +122,8 @@ export function TechSpecsBento({
             >
               <defs>
                 <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#2BFF4F" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#2BFF4F" stopOpacity="0.2" />
+                  <stop offset="0%" stopColor={accent} stopOpacity="0.65" />
+                  <stop offset="100%" stopColor={accent} stopOpacity="0.15" />
                 </linearGradient>
               </defs>
               <motion.path
@@ -135,7 +150,7 @@ export function TechSpecsBento({
                 cx="195"
                 cy="100"
                 r="8"
-                fill="#2BFF4F"
+                fill={accent}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.5, type: "spring", stiffness: 240, damping: 16 }}
@@ -161,8 +176,12 @@ export function TechSpecsBento({
           <div className="flex-1 flex items-end justify-center">
             <div className="relative h-full w-14 overflow-hidden rounded-[12px] border border-white/10 bg-gradient-to-b from-white/10 to-white/5">
               <motion.div
-                style={{ scaleY: gripFill, transformOrigin: "bottom" }}
-                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyber-lime/90 via-cyber-lime/75 to-cyber-lime/40"
+                className="absolute bottom-0 left-0 right-0"
+                style={{
+                  scaleY: gripFill,
+                  transformOrigin: "bottom",
+                  background: `linear-gradient(to top, ${accentFill}, ${accentGlow}, ${accentSoft})`,
+                }}
               >
                 <div className="h-[360px]" />
               </motion.div>
@@ -191,7 +210,7 @@ export function TechSpecsBento({
           variants={itemVariants}
         >
           <div className={noiseOverlay} />
-          <MaterialMacro image={resolved.materialImage} />
+          <MaterialMacro image={resolved.materialImage} accentSoft={accentSoft} accentGlow={accentGlow} />
         </motion.div>
 
         {/* Protección */}
@@ -206,8 +225,11 @@ export function TechSpecsBento({
             animate={reduced ? {} : { y: [0, -4, 0] }}
             transition={reduced ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-full border border-cyber-lime/60 bg-cyber-lime/10">
-              <ShieldCheck className="h-6 w-6 text-cyber-lime" aria-label="Protección" />
+            <div
+              className="relative inline-flex h-12 w-12 items-center justify-center rounded-full border"
+              style={{ borderColor: accentGlow, backgroundColor: accentSoft }}
+            >
+              <ShieldCheck className="h-6 w-6" style={{ color: accent }} aria-label="Protección" />
               <div className="absolute inset-0 rounded-full animate-pulse-border" />
             </div>
             <div className="text-sm text-white/80">Knuckle shield + dorsal grid</div>
@@ -230,14 +252,14 @@ export function TechSpecsBento({
                   <PolarGrid stroke="rgba(255,255,255,0.12)" strokeDasharray="3 6" />
                   <PolarAngleAxis
                     dataKey="metric"
-                    tick={{ fill: "#2BFF4F", fontSize: 11, letterSpacing: "0.18em", fontFamily: "var(--font-space-grotesk)" }}
+                    tick={{ fill: accent, fontSize: 11, letterSpacing: "0.18em", fontFamily: "var(--font-space-grotesk)" }}
                     tickLine={false}
                   />
                   <Radar
                     dataKey="value"
-                    stroke="#2BFF4F"
-                    fill="#2BFF4F"
-                    fillOpacity={0.25}
+                    stroke={accent}
+                    fill={accent}
+                    fillOpacity={0.22}
                     strokeWidth={2}
                     isAnimationActive
                     animationDuration={1100}
@@ -246,7 +268,12 @@ export function TechSpecsBento({
                 </RadarChart>
               </ResponsiveContainer>
             )}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.12),transparent_55%)]" />
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: `radial-gradient(circle at 50% 50%, ${accentSoft}, transparent 55%)`,
+              }}
+            />
           </div>
         </motion.div>
       </motion.div>
@@ -254,7 +281,7 @@ export function TechSpecsBento({
   );
 }
 
-function MaterialMacro({ image }: { image: string }) {
+function MaterialMacro({ image, accentSoft, accentGlow }: { image: string; accentSoft: string; accentGlow: string }) {
   const [pos, setPos] = useState({ x: 50, y: 50 });
   return (
     <div
@@ -282,10 +309,10 @@ function MaterialMacro({ image }: { image: string }) {
         style={{
           maskImage: `radial-gradient(140px at ${pos.x}% ${pos.y}%, rgba(255,255,255,0.9), rgba(255,255,255,0) 60%)`,
           WebkitMaskImage: `radial-gradient(140px at ${pos.x}% ${pos.y}%, rgba(255,255,255,0.9), rgba(255,255,255,0) 60%)`,
-          background: "linear-gradient(135deg, rgba(43,255,79,0.25), rgba(43,255,79,0.05))",
+          background: `linear-gradient(135deg, ${accentGlow}, ${accentSoft})`,
         }}
       />
-      <div className="absolute inset-0 ring-1 ring-white/10 transition group-hover:ring-cyber-lime/60" />
+      <div className="absolute inset-0 ring-1 ring-white/10 transition group-hover:ring-white/30" />
       <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-[6px] border border-white/15 bg-black/40 px-3 py-2 text-[11px] font-mono text-white/70">
         <span>Material</span>
         <span className="text-white/50">Macro Texture</span>

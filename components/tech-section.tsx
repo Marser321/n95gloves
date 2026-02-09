@@ -65,8 +65,8 @@ export default function TechSection() {
               key={item.title}
               className="rounded-[12px] border border-white/10 bg-white/5 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.25)]"
             >
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-[8px] border border-cyber-lime/30 bg-cyber-lime/10">
-                <Icon className="h-5 w-5 text-cyber-lime" aria-hidden />
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-[8px] border border-white/15 bg-white/5">
+                <Icon className="h-5 w-5 text-white/70" aria-hidden />
               </div>
               <h4 className="text-lg font-semibold">{item.title}</h4>
               <p className="mt-2 text-sm text-white/65">{item.description}</p>
@@ -81,7 +81,7 @@ export default function TechSection() {
             className="rounded-[12px] border border-white/10 bg-black/40 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.25)]"
           >
             <div className="flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-white/50">
-              <span className="text-cyber-lime">{item.step}</span>
+              <span className="text-white/70">{item.step}</span>
               <span className="h-px flex-1 bg-white/10" aria-hidden />
             </div>
             <p className="mt-3 text-sm font-semibold">{item.title}</p>
@@ -90,7 +90,7 @@ export default function TechSection() {
         ))}
       </RevealGroup>
       <div className="flex flex-wrap items-center gap-4 text-sm">
-        <Link href="/product/n95-pro-defender" className="inline-flex items-center gap-2 text-cyber-lime hover:underline">
+        <Link href="/product/n95-pro-defender" className="inline-flex items-center gap-2 text-white/75 hover:text-cyber-lime hover:underline">
           Ver el modelo con tecnología completa
           <ArrowRight className="h-4 w-4" />
         </Link>

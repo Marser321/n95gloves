@@ -47,8 +47,8 @@ export default function PdpStory() {
               key={item.title}
               className="rounded-[12px] border border-white/10 bg-white/5 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.25)]"
             >
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-[8px] border border-cyber-lime/30 bg-cyber-lime/10">
-                <Icon className="h-5 w-5 text-cyber-lime" aria-hidden />
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-[8px] border border-white/15 bg-white/5">
+                <Icon className="h-5 w-5 text-white/70" aria-hidden />
               </div>
               <p className="text-sm font-semibold">{item.title}</p>
               <p className="mt-2 text-xs text-white/65">{item.copy}</p>

@@ -10,9 +10,10 @@ type ProductGalleryProps = {
   media: ProductMedia[];
   name: string;
   overlay?: ReactNode;
+  accent?: string;
 };
 
-export default function ProductGallery({ media, name, overlay }: ProductGalleryProps) {
+export default function ProductGallery({ media, name, overlay, accent }: ProductGalleryProps) {
   const items = useMemo<ProductMedia[]>(
     () => (media.length ? media : [{ type: "image", src: "/products/product-01.jpg" }]),
     [media]
@@ -25,12 +26,22 @@ export default function ProductGallery({ media, name, overlay }: ProductGalleryP
   const active = items[activeIndex];
   const isImage = active.type === "image";
   const zoomScale = zoomed ? 1.18 : hovered && !reduced ? 1.05 : 1;
+  const activeStyle = accent
+    ? {
+        borderColor: accent,
+        boxShadow: `0 0 0 1px ${accent}66, 0 0 18px ${accent}33`,
+      }
+    : undefined;
 
-  const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleMove = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
     if (!isImage) return;
+    const client =
+      "clientX" in event
+        ? { x: event.clientX, y: event.clientY }
+        : { x: event.touches[0].clientX, y: event.touches[0].clientY };
     const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const x = ((client.x - rect.left) / rect.width) * 100;
+    const y = ((client.y - rect.top) / rect.height) * 100;
     setOrigin(`${x}% ${y}%`);
   };
 
@@ -50,6 +61,7 @@ export default function ProductGallery({ media, name, overlay }: ProductGalleryP
           setHovered(false);
           if (!zoomed) setOrigin("50% 50%");
         }}
+        onTouchMove={handleMove}
       >
         {isImage ? (
           <motion.div
@@ -108,17 +120,25 @@ export default function ProductGallery({ media, name, overlay }: ProductGalleryP
             className={cn(
               "relative h-16 w-16 overflow-hidden rounded-[6px] border transition",
               activeIndex === index
-                ? "border-cyber-lime shadow-glow"
-                : "border-white/10 hover:border-cyber-lime/40"
+                ? accent
+                  ? "border-white/30"
+                  : "border-cyber-lime shadow-glow"
+                : "border-white/10 hover:border-white/40"
             )}
             aria-label={item.type === "video" ? "Ver video" : "Ver imagen"}
+            style={activeIndex === index ? activeStyle : undefined}
           >
             {item.type === "image" ? (
               <Image src={item.src} alt={name} fill className="object-cover" sizes="64px" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-black/70 text-[10px] uppercase tracking-[0.2em] text-white/60">
+              <div className="flex h-full w-full items-center justify-center bg-black/70 text-[10px] uppercase tracking-[0.2em] text-white/70">
                 Video
               </div>
+            )}
+            {item.type === "video" && (
+              <span className="absolute left-1.5 top-1.5 rounded-full bg-black/80 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-white/80">
+                MP4
+              </span>
             )}
           </button>
         ))}

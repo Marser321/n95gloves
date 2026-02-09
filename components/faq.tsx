@@ -66,8 +66,8 @@ export default function FAQ() {
                 className="rounded-[12px] border border-white/10 bg-white/5 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.25)]"
               >
                 <div className="flex items-start gap-4">
-                  <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-[8px] border border-cyber-lime/30 bg-cyber-lime/10">
-                    <Icon className="h-5 w-5 text-cyber-lime" aria-hidden />
+                  <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-[8px] border border-white/15 bg-white/5">
+                    <Icon className="h-5 w-5 text-white/70" aria-hidden />
                   </div>
                   <div>
                     <p className="text-sm font-semibold">{item.title}</p>

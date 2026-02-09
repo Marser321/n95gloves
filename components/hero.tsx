@@ -26,7 +26,7 @@ export default function Hero() {
   const y = useMotionValue(50);
   const springX = useSpring(x, { stiffness: 120, damping: 12, mass: 0.15 });
   const springY = useSpring(y, { stiffness: 120, damping: 12, mass: 0.15 });
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${springX}% ${springY}%, rgba(43,255,79,0.18), rgba(3,3,3,0) 55%)`;
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${springX}% ${springY}%, rgba(43,255,79,0.12), rgba(3,3,3,0) 55%)`;
   const imageX = useTransform(springX, [0, 100], [-10, 10]);
   const imageY = useTransform(springY, [0, 100], [-10, 10]);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
@@ -64,7 +64,7 @@ export default function Hero() {
         className="absolute inset-0 transition-all"
         aria-hidden
       />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.06),transparent_35%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent_35%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90" />
       <div className="container grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
         <div className="space-y-7">
@@ -141,7 +141,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <div className="pointer-events-none absolute inset-0 scale-110 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.18),transparent_45%)] blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 scale-110 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.12),transparent_45%)] blur-3xl" />
           <motion.div
             className="relative isolate mx-auto max-w-[480px] overflow-visible"
             style={{ x: imageX, y: combinedY }}

@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } fr
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/providers/cart-provider";
-import { Product } from "@/lib/products";
+import { Product, products } from "@/lib/products";
 import TechSpecsBento from "@/components/tech-specs-bento";
 import { Reveal } from "@/components/motion/reveal";
 import SizeAssistant from "@/components/size-assistant";
@@ -29,6 +29,20 @@ type SizeRecommendation = {
 const SIZE_RECO_KEY = "n95-size-reco";
 
 export default function ProductDetail({ product }: { product: Product }) {
+  const accent = product.accent ?? "#2BFF4F";
+  const hexToRgb = (hex: string) => {
+    const cleaned = hex.replace("#", "");
+    if (cleaned.length !== 6) return null;
+    const num = Number.parseInt(cleaned, 16);
+    if (Number.isNaN(num)) return null;
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `${r}, ${g}, ${b}`;
+  };
+  const accentRgb = hexToRgb(accent);
+  const accentSoft = accentRgb ? `rgba(${accentRgb}, 0.12)` : "rgba(43, 255, 79, 0.12)";
+  const accentBorder = accentRgb ? `rgba(${accentRgb}, 0.55)` : "rgba(43, 255, 79, 0.55)";
   const imageRef = useRef<HTMLDivElement | null>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress: imageScroll } = useScroll({
@@ -102,13 +116,19 @@ export default function ProductDetail({ product }: { product: Product }) {
     setSavedSize(readSavedSize());
   };
 
+  const siblingProducts = products.filter((p) => p.id !== product.id);
+
   const galleryOverlay = (
     <>
       <motion.div
-        className="pointer-events-none absolute z-20 h-24 w-24 rounded-full border border-cyber-lime/60 bg-cyber-lime/10 blur-[0.2px]"
+        className="pointer-events-none absolute z-20 h-24 w-24 rounded-full border blur-[0.2px]"
         animate={{ top: focusPoints[focus].top, left: focusPoints[focus].left }}
-        style={{ y: reduced ? 0 : hotspotOffset }}
         transition={{ type: "spring", stiffness: 120, damping: 14 }}
+        style={{
+          y: reduced ? 0 : hotspotOffset,
+          borderColor: accentBorder,
+          backgroundColor: accentSoft,
+        }}
       />
       <div className="absolute left-4 top-4 z-30 rounded-[6px] border border-white/10 bg-black/60 px-3 py-2 text-[11px] uppercase tracking-[0.28em] text-white/70">
         Anatomía del N95
@@ -125,7 +145,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               aria-label={`Destacar ${key === "dorsal" ? "dorso" : key === "palm" ? "palma" : "muñequera"}`}
               aria-pressed={focus === key}
               aria-controls="anatomy-panel"
-              className="relative -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyber-lime/40 bg-cyber-lime/10 p-2 shadow-glow transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-lime/60"
+              className="relative -translate-x-1/2 -translate-y-1/2 rounded-full border p-2 shadow-glow transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-lime/60"
               onMouseEnter={() => {
                 setHovered(key);
                 setFocus(key);
@@ -137,8 +157,12 @@ export default function ProductDetail({ product }: { product: Product }) {
                 setFocus(key);
               }}
               onBlur={() => setHovered(null)}
+              style={{
+                borderColor: accentBorder,
+                backgroundColor: accentSoft,
+              }}
             >
-              <span className="block h-2.5 w-2.5 rounded-full bg-cyber-lime" />
+              <span className="block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: accent }} />
             </button>
             <AnimatePresence>
               {hovered === key && (
@@ -149,7 +173,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="absolute left-4 top-4 w-56 rounded-[10px] border border-white/10 bg-black/90 p-3 text-xs text-white/80 shadow-[0_18px_60px_rgba(0,0,0,0.35)]"
                 >
-                  <p className="text-[11px] uppercase tracking-[0.24em] text-cyber-lime">
+                  <p className="text-[11px] uppercase tracking-[0.24em]" style={{ color: accent }}>
                     {key === "dorsal" ? "Dorso" : key === "palm" ? "Palma" : "Muñequera"}
                   </p>
                   <p className="mt-2">{anatomyCopy[key]}</p>
@@ -175,34 +199,84 @@ export default function ProductDetail({ product }: { product: Product }) {
               style={{ rotateX: imageTilt, rotateZ: imageRotate }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,79,0.16),transparent_50%)] blur-3xl" />
-              <ProductGallery media={product.media} name={product.name} overlay={galleryOverlay} />
+              <ProductGallery media={product.media} name={product.name} overlay={galleryOverlay} accent={accent} />
             </motion.div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className="rounded-[10px] border border-white/10 bg-black/60 p-3 text-sm text-white/70">
+              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Render 3D</p>
+              <p className="mt-2">
+                Próximamente podrás rotar el modelo en 360°. Subiremos el render en cuanto lo tengamos.
+              </p>
+            </div>
+            <div className="rounded-[10px] border border-white/10 bg-black/60 p-3 text-sm text-white/70">
+              <p className="text-xs uppercase tracking-[0.28em] text-white/50">Video highlight</p>
+              <p className="mt-2">
+                Placeholder para un clip corto de uso real. Se reproducirá inline en la galería.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="space-y-8">
         <div className="space-y-3">
-          <Reveal>
-            <Badge>Edición Pro</Badge>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <h1 className="section-title text-4xl font-semibold leading-tight">{product.name}</h1>
-          </Reveal>
-          <Reveal delay={0.16}>
-            <p className="text-lg text-white/70">
-              Ingeniería visual para porteros de élite. Cada capa está pensada para absorber impacto, mantener
-              agarre constante y liberar tus reflejos.
-            </p>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="text-3xl font-semibold text-cyber-lime">${product.price.toFixed(0)}</p>
-          </Reveal>
-          <div className="flex flex-wrap gap-3 text-xs text-white/60">
-            <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
-              Envío rápido 24-48h
-            </span>
-            <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
+        <Reveal>
+          <Badge>Edición Pro</Badge>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <h1 className="section-title text-4xl font-semibold leading-tight">{product.name}</h1>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <p className="text-lg text-white/70">{product.summary}</p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <p className="text-3xl font-semibold" style={{ color: accent }}>
+            ${product.price.toFixed(0)}
+          </p>
+        </Reveal>
+        <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+          <p className="text-xs uppercase tracking-[0.3em] text-white/50">Ficha rápida</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+              <span className="text-white/60">Corte</span>
+              <span className="font-semibold">{product.quickSpecs?.cut ?? product.tags.join(", ")}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+              <span className="text-white/60">Clima</span>
+              <span className="font-semibold">{product.quickSpecs?.climate ?? "Multi-clima"}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+              <span className="text-white/60">Peso</span>
+              <span className="font-semibold">{product.quickSpecs?.weight ?? "210g"}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-[6px] border border-white/5 bg-black/30 px-3 py-2">
+              <span className="text-white/60">Látex</span>
+              <span className="font-semibold">{product.quickSpecs?.latex ?? "4mm premium"}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2 text-xs">
+          <span className="rounded-[6px] border border-white/10 bg-white/5 px-3 py-1 text-white/60 uppercase tracking-[0.22em]">
+            Variantes de color
+          </span>
+          {siblingProducts.map((sibling) => (
+            <button
+              key={sibling.id}
+              type="button"
+              onClick={() => window.location.assign(`/product/${sibling.slug}`)}
+              className="flex items-center gap-2 rounded-[6px] border border-white/10 bg-black/30 px-3 py-1 text-white/75 transition hover:border-white/30"
+            >
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: sibling.accent }} aria-hidden />
+              {sibling.name}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-3 text-xs text-white/60">
+          <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
+            Envío rápido 24-48h
+          </span>
+          <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
               Devolución 30 días
             </span>
             <span className="rounded-[4px] border border-white/10 bg-white/5 px-2 py-1">
@@ -212,7 +286,10 @@ export default function ProductDetail({ product }: { product: Product }) {
           {savedSize && (
             <div className="text-xs text-white/60">
               Tu talla recomendada:{" "}
-              <span className="text-cyber-lime font-semibold">Talla {savedSize.size}</span> ·{" "}
+              <span className="font-semibold" style={{ color: accent }}>
+                Talla {savedSize.size}
+              </span>{" "}
+              ·{" "}
               {savedSize.fit === "ajustado" ? "Ceñido" : "Holgado"}
             </div>
           )}
@@ -266,11 +343,12 @@ export default function ProductDetail({ product }: { product: Product }) {
                 type="button"
                 aria-pressed={focus === key}
                 aria-controls="anatomy-panel"
-                className={`rounded-[2px] border px-3 py-2 text-sm transition ${
+                className="rounded-[2px] border px-3 py-2 text-sm transition border-white/15 bg-white/5 text-white/70 hover:border-white/40"
+                style={
                   focus === key
-                    ? "border-cyber-lime bg-cyber-lime/10 text-cyber-lime"
-                    : "border-white/15 bg-white/5 text-white/70 hover:border-cyber-lime/40"
-                }`}
+                    ? { borderColor: accentBorder, color: accent, backgroundColor: accentSoft }
+                    : undefined
+                }
               >
                 {key === "dorsal" ? "Dorso" : key === "palm" ? "Palma" : "Muñequera"}
               </button>
@@ -296,13 +374,14 @@ export default function ProductDetail({ product }: { product: Product }) {
                 <motion.div
                   onViewportEnter={() => setFocus(step.key)}
                   viewport={{ amount: 0.6 }}
-                  className={`rounded-[12px] border p-6 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition ${
-                    focus === step.key
-                      ? "border-cyber-lime/60 bg-cyber-lime/10"
-                      : "border-white/10 bg-white/5"
-                  }`}
-                >
-                  <p className="text-[11px] uppercase tracking-[0.28em] text-white/50">{step.kicker}</p>
+                className="rounded-[12px] border p-6 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition border-white/10 bg-white/5"
+                style={
+                  focus === step.key
+                    ? { borderColor: accentBorder, backgroundColor: accentSoft }
+                    : undefined
+                }
+              >
+                <p className="text-[11px] uppercase tracking-[0.28em] text-white/50">{step.kicker}</p>
                   <h3 className="mt-3 text-2xl font-semibold">{step.title}</h3>
                   <p className="mt-3 text-sm text-white/70">{step.copy}</p>
                 </motion.div>
@@ -361,7 +440,9 @@ export default function ProductDetail({ product }: { product: Product }) {
         <div className="mx-auto flex max-w-xl items-center justify-between">
           <div>
             <p className="text-sm text-white/70">{product.name}</p>
-            <p className="text-lg font-semibold text-cyber-lime">${product.price.toFixed(0)}</p>
+            <p className="text-lg font-semibold" style={{ color: accent }}>
+              ${product.price.toFixed(0)}
+            </p>
           </div>
           <Button type="button" onClick={handleAdd} className="shadow-glow" aria-busy={adding} disabled={adding}>
             <span role="status" aria-live="polite">

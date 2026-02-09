@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Reveal } from "@/components/motion/reveal";
 import { blurDataUrl } from "@/lib/blur";
 import { cn } from "@/lib/utils";
@@ -13,18 +13,21 @@ const steps = [
     copy:
       "Capas de latex premium que responden con precision milimetrica en cada contacto.",
     accent: "Látex alemán 4mm",
+    image: "/lookbook/lookbook-03.jpg",
   },
   {
     title: "Control de impacto",
     copy:
       "Paneles híbridos y volumen calculado para despejes seguros sin perder sensibilidad.",
     accent: "Punch zone",
+    image: "/lookbook/lookbook-04.jpg",
   },
   {
     title: "Muñequera 360",
     copy:
       "Ajuste doble con compresión estable y liberación rápida para cambios en cancha.",
     accent: "Fit boutique",
+    image: "/lookbook/lookbook-05.jpg",
   },
 ];
 
@@ -60,12 +63,19 @@ export default function ScrollyGlove() {
   const ref = useRef<HTMLElement | null>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const imageY = useTransform(scrollYProgress, [0, 1], [30, -20]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1.04, 1]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [18, -12]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.03, 1]);
+  const [active, setActive] = useState(0);
+  const progressRail = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const next = Math.min(steps.length - 1, Math.max(0, Math.floor(latest * steps.length)));
+    if (next !== active) setActive(next);
+  });
 
   return (
     <section ref={ref} className="relative py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(43,255,79,0.12),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(43,255,79,0.08),transparent_45%)]" />
       <div className="container grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-6 lg:sticky lg:top-24 lg:h-fit">
           <Reveal>
@@ -87,17 +97,27 @@ export default function ScrollyGlove() {
             )}
             style={reduced ? {} : { y: imageY, scale: imageScale }}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(43,255,79,0.2),transparent_45%)]" />
-            <Image
-              src="/lookbook/lookbook-03.jpg"
-              alt="Detalle del guante N95"
-              width={900}
-              height={900}
-              className="relative z-10 h-[420px] w-full object-cover"
-              sizes="(max-width: 768px) 100vw, 520px"
-              placeholder="blur"
-              blurDataURL={blurDataUrl}
-            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(43,255,79,0.12),transparent_45%)]" />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={steps[active].image}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                <Image
+                  src={steps[active].image}
+                  alt="Detalle del guante N95"
+                  width={900}
+                  height={900}
+                  className="relative z-10 h-[420px] w-full object-cover"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  placeholder="blur"
+                  blurDataURL={blurDataUrl}
+                />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
         </div>
 
@@ -113,6 +133,12 @@ export default function ScrollyGlove() {
               />
             </div>
           ))}
+          <div className="relative mt-6 h-1 w-full rounded-full bg-white/10">
+            <motion.span
+              className="absolute left-0 top-0 h-1 rounded-full bg-white/60"
+              style={{ width: progressRail }}
+            />
+          </div>
         </div>
       </div>
     </section>

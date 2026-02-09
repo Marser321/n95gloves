@@ -82,7 +82,10 @@ function BentoCard({ product, span, onAdd, adding }: BentoCardProps) {
           <h3 className="text-xl font-semibold">{product.name}</h3>
           <p className="text-sm text-white/60">${product.price.toFixed(0)}</p>
         </div>
-        <div className="text-xs uppercase tracking-wide text-white/50">{product.variant}</div>
+        <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-white/50">
+          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: product.accent }} aria-hidden />
+          {product.variant}
+        </div>
       </div>
       <div className="relative mt-4 overflow-hidden rounded-[8px] border border-white/5 bg-gradient-to-br from-white/5 to-transparent">
         <motion.div
@@ -169,7 +172,7 @@ export default function BentoGrid({ products }: { products: Product[] }) {
   return (
     <section ref={sectionRef} id="lineup" className="relative container space-y-10 py-16">
       <motion.div
-        className="pointer-events-none absolute -top-6 right-10 h-32 w-32 rounded-full bg-cyber-lime/20 blur-3xl"
+        className="pointer-events-none absolute -top-6 right-10 h-32 w-32 rounded-full bg-cyber-lime/10 blur-3xl"
         style={{ opacity: glowOpacity, scale: glowScale }}
         aria-hidden
       />
@@ -182,7 +185,7 @@ export default function BentoGrid({ products }: { products: Product[] }) {
             <h2 className="mt-2 text-3xl font-semibold">Escasez. Ingeniería. Exclusividad.</h2>
           </Reveal>
         </div>
-        <Link href="/collection" className="text-sm text-cyber-lime hover:underline">
+        <Link href="/collection" className="text-sm text-white/70 hover:text-cyber-lime hover:underline">
           Ver colección completa
         </Link>
       </div>

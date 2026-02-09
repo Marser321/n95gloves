@@ -18,8 +18,8 @@ html {
 
 body {
   @apply bg-cyber-black text-cyber-gray;
-  background: radial-gradient(circle at 20% 20%, rgba(43, 255, 79, 0.04), transparent 28%),
-    radial-gradient(circle at 80% 0%, rgba(43, 255, 79, 0.05), transparent 30%),
+  background: radial-gradient(circle at 20% 20%, rgba(43, 255, 79, 0.025), transparent 28%),
+    radial-gradient(circle at 80% 0%, rgba(43, 255, 79, 0.03), transparent 30%),
     #030303;
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
   min-height: 100vh;

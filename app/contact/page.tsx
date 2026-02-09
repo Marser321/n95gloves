@@ -51,8 +51,8 @@ export default function ContactPage() {
                   className="rounded-[12px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.25)]"
                 >
                   <Reveal>
-                    <div className="flex h-12 w-12 items-center justify-center rounded-[10px] border border-cyber-lime/30 bg-cyber-lime/10">
-                      <Icon className="h-6 w-6 text-cyber-lime" aria-hidden />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[10px] border border-white/15 bg-white/5">
+                      <Icon className="h-6 w-6 text-white/70" aria-hidden />
                     </div>
                   </Reveal>
                   <Reveal delay={0.08}>
