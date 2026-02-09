@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useCart } from "@/providers/cart-provider";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CartDrawer() {
   const { open, closeCart, items, increment, decrement, removeItem, total } = useCart();
@@ -58,7 +59,9 @@ export default function CartDrawer() {
             <span className="text-white/60">Subtotal</span>
             <span className="font-semibold">${total.toFixed(0)}</span>
           </div>
-          <Button type="button" className="w-full">Finalizar compra</Button>
+          <Button asChild className="w-full">
+            <Link href="/checkout">Finalizar compra</Link>
+          </Button>
           <p className="text-xs text-white/50">Checkout mock listo para conectar a tu gateway.</p>
         </div>
       </SheetContent>

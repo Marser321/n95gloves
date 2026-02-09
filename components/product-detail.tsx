@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { Reveal } from "@/components/motion/reveal";
 import SizeAssistant from "@/components/size-assistant";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import PdpStory from "@/components/pdp-story";
+import ProductGallery from "@/components/product-gallery";
 
 const focusPoints = {
   dorsal: { top: "28%", left: "52%" },
@@ -80,6 +80,66 @@ export default function ProductDetail({ product }: { product: Product }) {
     setSavedSize(readSavedSize());
   };
 
+  const galleryOverlay = (
+    <>
+      <motion.div
+        className="pointer-events-none absolute z-20 h-24 w-24 rounded-full border border-cyber-lime/60 bg-cyber-lime/10 blur-[0.2px]"
+        animate={{ top: focusPoints[focus].top, left: focusPoints[focus].left }}
+        style={{ y: reduced ? 0 : hotspotOffset }}
+        transition={{ type: "spring", stiffness: 120, damping: 14 }}
+      />
+      <div className="absolute left-4 top-4 z-30 rounded-[6px] border border-white/10 bg-black/60 px-3 py-2 text-[11px] uppercase tracking-[0.28em] text-white/70">
+        Anatomía del N95
+      </div>
+      <motion.div className="absolute inset-0 z-30" style={{ y: reduced ? 0 : hotspotOffset }}>
+        {(Object.keys(focusPoints) as Array<keyof typeof focusPoints>).map((key) => (
+          <div
+            key={key}
+            className="absolute"
+            style={{ top: focusPoints[key].top, left: focusPoints[key].left }}
+          >
+            <button
+              type="button"
+              aria-label={`Destacar ${key === "dorsal" ? "dorso" : key === "palm" ? "palma" : "muñequera"}`}
+              aria-pressed={focus === key}
+              aria-controls="anatomy-panel"
+              className="relative -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyber-lime/40 bg-cyber-lime/10 p-2 shadow-glow transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-lime/60"
+              onMouseEnter={() => {
+                setHovered(key);
+                setFocus(key);
+              }}
+              onClick={() => setFocus(key)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => {
+                setHovered(key);
+                setFocus(key);
+              }}
+              onBlur={() => setHovered(null)}
+            >
+              <span className="block h-2.5 w-2.5 rounded-full bg-cyber-lime" />
+            </button>
+            <AnimatePresence>
+              {hovered === key && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute left-4 top-4 w-56 rounded-[10px] border border-white/10 bg-black/90 p-3 text-xs text-white/80 shadow-[0_18px_60px_rgba(0,0,0,0.35)]"
+                >
+                  <p className="text-[11px] uppercase tracking-[0.24em] text-cyber-lime">
+                    {key === "dorsal" ? "Dorso" : key === "palm" ? "Palma" : "Muñequera"}
+                  </p>
+                  <p className="mt-2">{anatomyCopy[key]}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </motion.div>
+    </>
+  );
+
   return (
     <section className="container grid gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr]">
       <div className="relative">
@@ -89,76 +149,7 @@ export default function ProductDetail({ product }: { product: Product }) {
         >
           <div className="relative">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(57,255,20,0.16),transparent_50%)] blur-3xl" />
-            <motion.div
-              className="relative z-10"
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={900}
-                height={1200}
-                className="w-full object-cover"
-                sizes="(max-width: 1024px) 100vw, 520px"
-                priority
-              />
-            </motion.div>
-            <motion.div
-              className="pointer-events-none absolute z-20 h-24 w-24 rounded-full border border-cyber-lime/60 bg-cyber-lime/10 blur-[0.2px]"
-              animate={{ top: focusPoints[focus].top, left: focusPoints[focus].left }}
-              style={{ y: reduced ? 0 : hotspotOffset }}
-              transition={{ type: "spring", stiffness: 120, damping: 14 }}
-            />
-            <div className="absolute left-4 top-4 z-30 rounded-[6px] border border-white/10 bg-black/60 px-3 py-2 text-[11px] uppercase tracking-[0.28em] text-white/70">
-              Anatomía del N95
-            </div>
-            <motion.div className="absolute inset-0 z-30" style={{ y: reduced ? 0 : hotspotOffset }}>
-              {(Object.keys(focusPoints) as Array<keyof typeof focusPoints>).map((key) => (
-                <div
-                  key={key}
-                  className="absolute"
-                  style={{ top: focusPoints[key].top, left: focusPoints[key].left }}
-                >
-                  <button
-                    type="button"
-                    aria-label={`Destacar ${key === "dorsal" ? "dorso" : key === "palm" ? "palma" : "muñequera"}`}
-                    aria-pressed={focus === key}
-                    aria-controls="anatomy-panel"
-                    className="relative -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyber-lime/40 bg-cyber-lime/10 p-2 shadow-glow transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-lime/60"
-                    onMouseEnter={() => {
-                      setHovered(key);
-                      setFocus(key);
-                    }}
-                    onClick={() => setFocus(key)}
-                    onMouseLeave={() => setHovered(null)}
-                    onFocus={() => {
-                      setHovered(key);
-                      setFocus(key);
-                    }}
-                    onBlur={() => setHovered(null)}
-                  >
-                    <span className="block h-2.5 w-2.5 rounded-full bg-cyber-lime" />
-                  </button>
-                  <AnimatePresence>
-                    {hovered === key && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute left-4 top-4 w-56 rounded-[10px] border border-white/10 bg-black/90 p-3 text-xs text-white/80 shadow-[0_18px_60px_rgba(0,0,0,0.35)]"
-                      >
-                        <p className="text-[11px] uppercase tracking-[0.24em] text-cyber-lime">
-                          {key === "dorsal" ? "Dorso" : key === "palm" ? "Palma" : "Muñequera"}
-                        </p>
-                        <p className="mt-2">{anatomyCopy[key]}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-            </motion.div>
+            <ProductGallery media={product.media} name={product.name} overlay={galleryOverlay} />
           </div>
         </div>
       </div>

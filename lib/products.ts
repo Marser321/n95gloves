@@ -1,3 +1,9 @@
+export type ProductMedia = {
+  type: "image" | "video";
+  src: string;
+  poster?: string;
+};
+
 export type Product = {
   id: string;
   slug: string;
@@ -6,6 +12,7 @@ export type Product = {
   tags: string[];
   variant: string;
   image: string;
+  media: ProductMedia[];
   stats: { grip: number; durability: number };
   featureCopy: {
     dorsal: string;
@@ -23,6 +30,11 @@ export const products: Product[] = [
     tags: ["Nuevo", "Corte Híbrido"],
     variant: "Midnight Lime",
     image: "/products/product-01.jpg",
+    media: [
+      { type: "image", src: "/products/product-01.jpg" },
+      { type: "image", src: "/lookbook/lookbook-05.jpg" },
+      { type: "image", src: "/lookbook/lookbook-08.jpg" },
+    ],
     stats: { grip: 10, durability: 8 },
     featureCopy: {
       dorsal: "Cuerpo de neopreno ventilado con placas de impacto para despejes agresivos.",
@@ -38,6 +50,11 @@ export const products: Product[] = [
     tags: ["Híbrido"],
     variant: "Shadow Black",
     image: "/products/product-02.jpg",
+    media: [
+      { type: "image", src: "/products/product-02.jpg" },
+      { type: "image", src: "/lookbook/lookbook-06.jpg" },
+      { type: "image", src: "/lookbook/lookbook-09.jpg" },
+    ],
     stats: { grip: 9, durability: 9 },
     featureCopy: {
       dorsal: "Malla transpirable con inyección de gel para punch controlado.",
@@ -53,6 +70,11 @@ export const products: Product[] = [
     tags: ["Corte Negativo"],
     variant: "Crimson Flash",
     image: "/products/product-03.jpg",
+    media: [
+      { type: "image", src: "/products/product-03.jpg" },
+      { type: "image", src: "/lookbook/lookbook-07.jpg" },
+      { type: "image", src: "/lookbook/lookbook-10.jpg" },
+    ],
     stats: { grip: 9.5, durability: 8.5 },
     featureCopy: {
       dorsal: "Microfibra con texturizado 3D para desvíos con los nudillos.",
@@ -68,6 +90,11 @@ export const products: Product[] = [
     tags: ["Corte Negativo"],
     variant: "Arctic Fade",
     image: "/products/product-04.jpg",
+    media: [
+      { type: "image", src: "/products/product-04.jpg" },
+      { type: "image", src: "/lookbook/lookbook-11.jpg" },
+      { type: "image", src: "/lookbook/lookbook-12.jpg" },
+    ],
     stats: { grip: 8.5, durability: 9.5 },
     featureCopy: {
       dorsal: "Zona dorsal con rubber grid para despejes en frío.",
@@ -83,6 +110,11 @@ export const products: Product[] = [
     tags: ["Nuevo", "Híbrido"],
     variant: "Signal Orange",
     image: "/products/product-05.jpg",
+    media: [
+      { type: "image", src: "/products/product-05.jpg" },
+      { type: "image", src: "/lookbook/lookbook-13.jpg" },
+      { type: "image", src: "/lookbook/lookbook-14.jpg" },
+    ],
     stats: { grip: 9.5, durability: 8 },
     featureCopy: {
       dorsal: "Knuckleshield de TPU con canales flex.",
@@ -98,6 +130,11 @@ export const products: Product[] = [
     tags: ["Corte Negativo"],
     variant: "Aurora Lime",
     image: "/products/product-06.jpg",
+    media: [
+      { type: "image", src: "/products/product-06.jpg" },
+      { type: "image", src: "/lookbook/lookbook-15.jpg" },
+      { type: "image", src: "/lookbook/lookbook-16.jpg" },
+    ],
     stats: { grip: 9, durability: 8.5 },
     featureCopy: {
       dorsal: "Textil elástico con grip-lines reflectivas.",
