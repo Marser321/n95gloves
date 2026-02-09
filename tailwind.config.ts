@@ -36,7 +36,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         mono: ["var(--font-space-grotesk)", "monospace"],
-        display: ["var(--font-teko)", "system-ui", "sans-serif"],
+        display: ["var(--font-bebas-neue)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "4px",

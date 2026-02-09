@@ -34,7 +34,7 @@ export default function PoliciesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Politicas"
+        eyebrow="Políticas"
         title="Transparencia total en cada compra."
         description="Condiciones claras y soporte humano para que compres con confianza."
         badges={["Sin letra chica", "Soporte real", "Boutique"]}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { lookbook } from "@/lib/lookbook";
+import { blurDataUrl } from "@/lib/blur";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 
 export default function Lookbook() {
@@ -86,6 +87,8 @@ export default function Lookbook() {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 220px, 260px"
+                  placeholder="blur"
+                  blurDataURL={blurDataUrl}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-90" />
               </div>

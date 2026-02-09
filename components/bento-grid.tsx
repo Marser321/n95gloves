@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Product } from "@/lib/products";
 import { Reveal } from "@/components/motion/reveal";
 import { useCart } from "@/providers/cart-provider";
+import { blurDataUrl } from "@/lib/blur";
 
 const spans = ["md:col-span-2", "md:col-span-1", "md:col-span-1", "md:col-span-2", "md:col-span-1", "md:col-span-1"];
 
@@ -28,6 +29,10 @@ function BentoCard({ product, span, onAdd, adding }: BentoCardProps) {
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 180, damping: 16, mass: 0.2 });
   const springY = useSpring(y, { stiffness: 180, damping: 16, mass: 0.2 });
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springRotateX = useSpring(rotateX, { stiffness: 140, damping: 18, mass: 0.2 });
+  const springRotateY = useSpring(rotateY, { stiffness: 140, damping: 18, mass: 0.2 });
 
   const handleMove = (event: React.MouseEvent<HTMLElement>) => {
     if (reduced || !ref.current) return;
@@ -36,11 +41,15 @@ function BentoCard({ product, span, onAdd, adding }: BentoCardProps) {
     const dy = event.clientY - rect.top - rect.height / 2;
     x.set((dx / rect.width) * 8);
     y.set((dy / rect.height) * 8);
+    rotateX.set((-dy / rect.height) * 8);
+    rotateY.set((dx / rect.width) * 8);
   };
 
   const handleLeave = () => {
     x.set(0);
     y.set(0);
+    rotateX.set(0);
+    rotateY.set(0);
   };
 
   return (
@@ -51,6 +60,7 @@ function BentoCard({ product, span, onAdd, adding }: BentoCardProps) {
         "hover:border-accent/40",
         span
       )}
+      style={reduced ? {} : { rotateX: springRotateX, rotateY: springRotateY, transformPerspective: 900 }}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
@@ -107,6 +117,8 @@ function BentoCard({ product, span, onAdd, adding }: BentoCardProps) {
             height={900}
             className="h-[260px] w-full object-cover"
             sizes="(max-width: 768px) 100vw, 420px"
+            placeholder="blur"
+            blurDataURL={blurDataUrl}
           />
         </motion.div>
       </div>

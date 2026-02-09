@@ -16,6 +16,7 @@ import {
 import CTAButton from "@/components/cta-button";
 import { Reveal } from "@/components/motion/reveal";
 import HeroCanvas from "@/components/hero-canvas";
+import { blurDataUrl } from "@/lib/blur";
 
 const title = "N95 Gloves".split("");
 
@@ -158,6 +159,8 @@ export default function Hero() {
                 className="relative z-10 h-auto w-full object-cover drop-shadow-[0_35px_80px_rgba(0,0,0,0.55)]"
                 sizes="(max-width: 768px) 100vw, 520px"
                 priority
+                placeholder="blur"
+                blurDataURL={blurDataUrl}
               />
             </motion.div>
           </motion.div>

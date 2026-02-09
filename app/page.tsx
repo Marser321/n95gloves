@@ -9,6 +9,7 @@ import Lookbook from "@/components/lookbook";
 import FAQ from "@/components/faq";
 import FinalCTA from "@/components/final-cta";
 import { products } from "@/lib/products";
+import ScrollyGlove from "@/components/scrolly-glove";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Hero />
       <TrustStrip />
       <StorySection />
+      <ScrollyGlove />
       <Lookbook />
       <BentoGrid products={products} />
       <TechSection />
